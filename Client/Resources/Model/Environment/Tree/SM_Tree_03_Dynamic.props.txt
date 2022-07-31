@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/Dynamic/M_Tree_02_Bark_Dyn.M_Tree_02_Bark_Dyn'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/Dynamic/M_Tree_02_Bark_Dyn.M_Tree_02_Bark_Dyn'
+        MaterialSlotName = Tree
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 1431.27, 1750.18, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-16.8706, Y=57.0709, Z=904.813 }
+    BoxExtent = { X=92.9975, Y=162.441, Z=904.813 }
+    SphereRadius = 914.86
+}

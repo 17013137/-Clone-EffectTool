@@ -1,0 +1,98 @@
+Materials[7] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Glass.M_Bike_01_Dyn_Glass'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Chrome.M_Bike_01_Dyn_Chrome'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Blue.M_Bike_01_Dyn_Blue'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Black.M_Bike_01_Dyn_Black'
+    Materials[4] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Red.M_Bike_01_Dyn_Red'
+    Materials[5] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Silver.M_Bike_01_Dyn_Silver'
+    Materials[6] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_White.M_Bike_01_Dyn_White'
+}
+SourceModels[0] = {}
+StaticMaterials[7] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Glass.M_Bike_01_Dyn_Glass'
+        MaterialSlotName = Glass
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 413.249, 493.321, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Chrome.M_Bike_01_Dyn_Chrome'
+        MaterialSlotName = Chrome
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 406.219, 501.645, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Blue.M_Bike_01_Dyn_Blue'
+        MaterialSlotName = Red
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 504.542, 678.019, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Black.M_Bike_01_Dyn_Black'
+        MaterialSlotName = Black
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 408.798, 511.382, 0, 0 }
+        }
+    }
+    StaticMaterials[4] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Red.M_Bike_01_Dyn_Red'
+        MaterialSlotName = RedLight
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 397.71, 498.696, 0, 0 }
+        }
+    }
+    StaticMaterials[5] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_Silver.M_Bike_01_Dyn_Silver'
+        MaterialSlotName = Silver
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 410.038, 504.135, 0, 0 }
+        }
+    }
+    StaticMaterials[6] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/M_Bike_01_Dyn_White.M_Bike_01_Dyn_White'
+        MaterialSlotName = White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 402.017, 508.529, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=17.8539, Y=8.557, Z=65.0442 }
+    BoxExtent = { X=52.4904, Y=114.808, Z=64.4307 }
+    SphereRadius = 121.131
+}

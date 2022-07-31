@@ -1,0 +1,74 @@
+Materials[5] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_White_Snow.M_Bicycle_01_White_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Orange_Snow.M_Bicycle_01_Orange_Snow'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Black_Snow.M_Bicycle_01_Black_Snow'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Metal_Snow.M_Bicycle_01_Metal_Snow'
+    Materials[4] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Leather_Snow.M_Bicycle_01_Leather_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[5] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_White_Snow.M_Bicycle_01_White_Snow'
+        MaterialSlotName = White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 259.938, 221.937, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Orange_Snow.M_Bicycle_01_Orange_Snow'
+        MaterialSlotName = Frame
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 241.428, 201.76, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Black_Snow.M_Bicycle_01_Black_Snow'
+        MaterialSlotName = Black
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 255.665, 217.717, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Metal_Snow.M_Bicycle_01_Metal_Snow'
+        MaterialSlotName = Metal
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 235.609, 199.282, 0, 0 }
+        }
+    }
+    StaticMaterials[4] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Dynamic/Bicycle/M_Bicycle_01_Leather_Snow.M_Bicycle_01_Leather_Snow'
+        MaterialSlotName = Brown
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 260.758, 222.173, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-19.042, Y=10.0169, Z=58.7866 }
+    BoxExtent = { X=42.2771, Y=87.5634, Z=59.4705 }
+    SphereRadius = 102.362
+}

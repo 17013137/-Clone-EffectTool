@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Grass_Portal_Dynamic.M_Grass_Portal_Dynamic'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Grass_Portal_Dynamic.M_Grass_Portal_Dynamic'
+        MaterialSlotName = M_Grass_Master_Inst
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 62.6433, 1377.52, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-0.403778, Y=0, Z=25.3484 }
+    BoxExtent = { X=223.829, Y=479.891, Z=25.4691 }
+    SphereRadius = 503.027
+}

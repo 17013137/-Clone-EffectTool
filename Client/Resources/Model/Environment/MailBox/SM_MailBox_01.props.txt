@@ -1,0 +1,62 @@
+Materials[4] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_01_Snow.M_Wood_01_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Red_Snow1.M_Red_Snow1'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Metal_Snow.M_Metal_Snow'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Yellow_Snow.M_Yellow_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[4] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_01_Snow.M_Wood_01_Snow'
+        MaterialSlotName = Wood
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 167.732, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Red_Snow1.M_Red_Snow1'
+        MaterialSlotName = Red
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 104.631, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Metal_Snow.M_Metal_Snow'
+        MaterialSlotName = Metal
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 206.11, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Yellow_Snow.M_Yellow_Snow'
+        MaterialSlotName = Yellow
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 291.324, 0, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-4.97509, Y=19.629, Z=68.7052 }
+    BoxExtent = { X=15.2989, Y=33.829, Z=68.7052 }
+    SphereRadius = 74.199
+}

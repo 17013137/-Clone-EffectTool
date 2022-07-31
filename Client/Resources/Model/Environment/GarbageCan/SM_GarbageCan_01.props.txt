@@ -1,0 +1,38 @@
+Materials[2] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Green_Snow.M_Green_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Black_Snow.M_Black_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[2] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Green_Snow.M_Green_Snow'
+        MaterialSlotName = Grey
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 290.387, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Black_Snow.M_Black_Snow'
+        MaterialSlotName = Black
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 242.414, 0, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-4.16415, Y=0, Z=52.721 }
+    BoxExtent = { X=39.6073, Y=29.6272, Z=52.9642 }
+    SphereRadius = 66.284
+}

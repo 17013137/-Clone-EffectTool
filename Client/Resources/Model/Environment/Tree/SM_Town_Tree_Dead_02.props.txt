@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_01_Snow.M_Tree_01_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_01_Snow.M_Tree_01_Snow'
+        MaterialSlotName = Default
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 206.654, 237.276, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=0.130234, Y=-1.18048, Z=302.423 }
+    BoxExtent = { X=103.263, Y=104.482, Z=302.479 }
+    SphereRadius = 302.573
+}

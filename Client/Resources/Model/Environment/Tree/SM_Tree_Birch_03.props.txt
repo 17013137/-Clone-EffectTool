@@ -1,0 +1,38 @@
+Materials[2] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_Birch_Branch_Snow.M_Tree_Birch_Branch_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_Birch_Snow.M_Tree_Birch_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[2] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_Birch_Branch_Snow.M_Tree_Birch_Branch_Snow'
+        MaterialSlotName = Branch
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 402.961, 2209.71, 1676.33, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_Birch_Snow.M_Tree_Birch_Snow'
+        MaterialSlotName = Trunk
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 24.018, 2297.09, 1753.22, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=35.3197, Y=67.2453, Z=855.67 }
+    BoxExtent = { X=479.147, Y=419.424, Z=857.28 }
+    SphereRadius = 873.294
+}

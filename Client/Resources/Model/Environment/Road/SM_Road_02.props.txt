@@ -1,0 +1,50 @@
+Materials[3] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Snow.M_Road_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_White_Snow.M_Road_Lines_White_Snow'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_Yellow_Snow.M_Road_Lines_Yellow_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[3] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Snow.M_Road_Snow'
+        MaterialSlotName = Road
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 512.309, 3105.54, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_White_Snow.M_Road_Lines_White_Snow'
+        MaterialSlotName = RoadLines_White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 87.0593, 1130.79, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_Yellow_Snow.M_Road_Lines_Yellow_Snow'
+        MaterialSlotName = RoadLines_Yellow
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 103.012, 1231.52, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=0.0509033, Y=-1350.98, Z=2.8 }
+    BoxExtent = { X=2000.05, Y=1689.1, Z=1.8 }
+    SphereRadius = 2617.87
+}

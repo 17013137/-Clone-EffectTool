@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Rock/Material/M_Rock_01_Snow.M_Rock_01_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Rock/Material/M_Rock_01_Snow.M_Rock_01_Snow'
+        MaterialSlotName = Rock
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 159.484, 710.951, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=0, Y=5, Z=-6.79886 }
+    BoxExtent = { X=141.038, Y=284.329, Z=53.3244 }
+    SphereRadius = 285.962
+}

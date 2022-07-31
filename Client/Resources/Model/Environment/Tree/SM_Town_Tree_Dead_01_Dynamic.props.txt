@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/Dynamic/M_Tree_Dead_01.M_Tree_Dead_01'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/Dynamic/M_Tree_Dead_01.M_Tree_Dead_01'
+        MaterialSlotName = Default
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 318.212, 176.906, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=6.82908, Y=6.33791, Z=262.551 }
+    BoxExtent = { X=75.4507, Y=97.7534, Z=262.607 }
+    SphereRadius = 263.575
+}

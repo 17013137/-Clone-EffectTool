@@ -1,0 +1,62 @@
+Materials[4] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Snow.M_Env_Portal_01_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Outer_Snow.M_Env_Portal_01_Outer_Snow'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Snow.M_Env_Portal_01_Snow'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Outer_Snow.M_Env_Portal_01_Outer_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[4] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Snow.M_Env_Portal_01_Snow'
+        MaterialSlotName = Portal
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 615.93, 485.428, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Outer_Snow.M_Env_Portal_01_Outer_Snow'
+        MaterialSlotName = Portal_02
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 897.712, 961.584, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Snow.M_Env_Portal_01_Snow'
+        MaterialSlotName = Emissive_02
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 926.753, 671.357, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Outer_Snow.M_Env_Portal_01_Outer_Snow'
+        MaterialSlotName = Emissive
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 1138.11, 658.294, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-20, Y=-0.414215, Z=133.023 }
+    BoxExtent = { X=49.3285, Y=281.943, Z=218.572 }
+    SphereRadius = 306.408
+}

@@ -1,0 +1,74 @@
+Materials[5] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_01.M_Tree_01'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Black_Wind.M_Bird_Black_Wind'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Red_Wind.M_Bird_Red_Wind'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Grey_Dark_Wind.M_Bird_Grey_Dark_Wind'
+    Materials[4] = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Grey_Wind.M_Bird_Grey_Wind'
+}
+SourceModels[0] = {}
+StaticMaterials[5] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Foliage/Trees/Material/M_Tree_01.M_Tree_01'
+        MaterialSlotName = Tree
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 70.5101, 578.676, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Black_Wind.M_Bird_Black_Wind'
+        MaterialSlotName = Black
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 51.2969, 518.672, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Red_Wind.M_Bird_Red_Wind'
+        MaterialSlotName = Orange
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 51.3776, 549.774, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Grey_Dark_Wind.M_Bird_Grey_Dark_Wind'
+        MaterialSlotName = DarkGrey
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 48.7991, 519.787, 0, 0 }
+        }
+    }
+    StaticMaterials[4] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Birds/Material/M_Bird_Grey_Wind.M_Bird_Grey_Wind'
+        MaterialSlotName = Grey
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 49.7538, 531.496, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=26.2049, Y=-22.1602, Z=1082.97 }
+    BoxExtent = { X=234.85, Y=222.764, Z=1082.97 }
+    SphereRadius = 1084.54
+}

@@ -1,0 +1,38 @@
+Materials[2] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Lock.M_Env_Portal_01_Lock'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_Emissive.M_Env_Portal_Emissive'
+}
+SourceModels[0] = {}
+StaticMaterials[2] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_01_Lock.M_Env_Portal_01_Lock'
+        MaterialSlotName = Portal
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 246.807, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Env_Portal_Emissive.M_Env_Portal_Emissive'
+        MaterialSlotName = Emissive
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 318.086, 0, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-19, Y=0, Z=140 }
+    BoxExtent = { X=66.0325, Y=65.4365, Z=65.4365 }
+    SphereRadius = 66.6121
+}

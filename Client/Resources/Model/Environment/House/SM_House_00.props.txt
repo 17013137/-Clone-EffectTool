@@ -1,0 +1,110 @@
+Materials[8] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_02_Snow.M_Wood_02_Snow'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Emissive_Hot1.Emissive_Hot1'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Metal_Snow.M_Metal_Snow'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/_Global/Materials/M_Paint_White_Snow.M_Paint_White_Snow'
+    Materials[4] = MaterialInstanceConstant'/Game/Environment/Assets/Apartment/Material/M_Metal_Gold.M_Metal_Gold'
+    Materials[5] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/M_Glass.M_Glass'
+    Materials[6] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_01_Blue.M_Wood_01_Blue'
+    Materials[7] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Green_Snow.M_Green_Snow'
+}
+SourceModels[0] = {}
+StaticMaterials[8] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_02_Snow.M_Wood_02_Snow'
+        MaterialSlotName = Wood
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2915.51, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Emissive_Hot1.Emissive_Hot1'
+        MaterialSlotName = Emissive
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 3104.58, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Metal_Snow.M_Metal_Snow'
+        MaterialSlotName = DarkGrey
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2872, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/_Global/Materials/M_Paint_White_Snow.M_Paint_White_Snow'
+        MaterialSlotName = Wood_White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2845.97, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[4] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Apartment/Material/M_Metal_Gold.M_Metal_Gold'
+        MaterialSlotName = Gold
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2704.81, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[5] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/M_Glass.M_Glass'
+        MaterialSlotName = Glass
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 3106.92, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[6] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Wood_01_Blue.M_Wood_01_Blue'
+        MaterialSlotName = Wood_Blue
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 3118.89, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[7] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/M_Green_Snow.M_Green_Snow'
+        MaterialSlotName = Hose
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2981.07, 0, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-122.064, Y=-206.254, Z=205.68 }
+    BoxExtent = { X=688.542, Y=631.036, Z=264.916 }
+    SphereRadius = 832.158
+}

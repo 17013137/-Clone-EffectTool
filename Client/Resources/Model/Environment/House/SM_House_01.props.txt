@@ -1,0 +1,110 @@
+Materials[8] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn.M_House_Dyn'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Emissive_Hot1.Emissive_Hot1'
+    Materials[2] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Metal.M_House_Dyn_Metal'
+    Materials[3] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Paint.M_House_Dyn_Paint'
+    Materials[4] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Gold.M_House_Dyn_Gold'
+    Materials[5] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Glass.M_House_Dyn_Glass'
+    Materials[6] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Wood_Blue.M_House_Dyn_Wood_Blue'
+    Materials[7] = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Green.M_House_Dyn_Green'
+}
+SourceModels[0] = {}
+StaticMaterials[8] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn.M_House_Dyn'
+        MaterialSlotName = Wood
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2968.48, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Vehicle/Materials/Emissive_Hot1.Emissive_Hot1'
+        MaterialSlotName = Emissive
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2897.79, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[2] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Metal.M_House_Dyn_Metal'
+        MaterialSlotName = DarkGrey
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2586.62, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[3] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Paint.M_House_Dyn_Paint'
+        MaterialSlotName = Wood_White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2715.35, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[4] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Gold.M_House_Dyn_Gold'
+        MaterialSlotName = Gold
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2382.69, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[5] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Glass.M_House_Dyn_Glass'
+        MaterialSlotName = Glass
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 2862.26, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[6] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Wood_Blue.M_House_Dyn_Wood_Blue'
+        MaterialSlotName = Wood_Blue
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 0, 0, 0, 0 }
+        }
+    }
+    StaticMaterials[7] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/House/Material/Dynamic/M_House_Dyn_Green.M_House_Dyn_Green'
+        MaterialSlotName = Hose
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 0, 0, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-66.2866, Y=-7.74115, Z=272.123 }
+    BoxExtent = { X=1044.92, Y=578.765, Z=273.015 }
+    SphereRadius = 1189.45
+}

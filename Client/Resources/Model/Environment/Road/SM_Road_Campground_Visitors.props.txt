@@ -1,0 +1,38 @@
+Materials[2] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road.M_Road'
+    Materials[1] = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_White.M_Road_Lines_White'
+}
+SourceModels[0] = {}
+StaticMaterials[2] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road.M_Road'
+        MaterialSlotName = Default
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 1378.06, 3423.64, 0, 0 }
+        }
+    }
+    StaticMaterials[1] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Road/Material/M_Road_Lines_White.M_Road_Lines_White'
+        MaterialSlotName = White
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 420.482, 1418.85, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=112.5, Y=-1091.4, Z=5.625 }
+    BoxExtent = { X=2332.5, Y=1564.9, Z=0.625 }
+    SphereRadius = 2808.82
+}

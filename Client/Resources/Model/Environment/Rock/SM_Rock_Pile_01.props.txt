@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Rock/Material/Dynamic/M_Rock_Dynamic_01.M_Rock_Dynamic_01'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Rock/Material/Dynamic/M_Rock_Dynamic_01.M_Rock_Dynamic_01'
+        MaterialSlotName = Rock
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 385.216, 514.735, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=2.57214, Y=9.13518, Z=18.2628 }
+    BoxExtent = { X=172.813, Y=128.163, Z=28.2628 }
+    SphereRadius = 195.08
+}

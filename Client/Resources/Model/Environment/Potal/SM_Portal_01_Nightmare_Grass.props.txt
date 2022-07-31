@@ -1,0 +1,26 @@
+Materials[1] =
+{
+    Materials[0] = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Grass_Portal_Nighmare.M_Grass_Portal_Nighmare'
+}
+SourceModels[0] = {}
+StaticMaterials[1] =
+{
+    StaticMaterials[0] =
+    {
+        MaterialInterface = MaterialInstanceConstant'/Game/Environment/Assets/Portal/Material/M_Grass_Portal_Nighmare.M_Grass_Portal_Nighmare'
+        MaterialSlotName = Grass
+        UVChannelData =
+        {
+            bInitialized = true
+            bOverrideDensities = false
+            LocalUVDensities[4] = { 58.622, 421.722, 0, 0 }
+        }
+    }
+}
+Sockets[0] = {}
+ExtendedBounds =
+{
+    Origin = { X=-19.0484, Y=15.5764, Z=30.4756 }
+    BoxExtent = { X=127.641, Y=319.833, Z=30.5857 }
+    SphereRadius = 322.24
+}
