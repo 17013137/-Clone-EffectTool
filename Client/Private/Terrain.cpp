@@ -94,10 +94,10 @@ HRESULT CTerrain::Render()
 		return E_FAIL;
 
 #ifdef _DEBUG
-	CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
-	m_pAABBCom->Render();
-	pGameInstance->Render_Navigation();
-	RELEASE_INSTANCE(CGameInstance);
+	//CGameInstance*		pGameInstance = GET_INSTANCE(CGameInstance);
+	//m_pAABBCom->Render();
+	//pGameInstance->Render_Navigation();
+	//RELEASE_INSTANCE(CGameInstance);
 #endif // _DEBUG
 
 	return S_OK;

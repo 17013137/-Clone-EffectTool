@@ -14,19 +14,6 @@ static const char* PrototypeList[]{ "Prototype_GameObject_Bed", "Prototype_GameO
 class ENGINE_DLL CImgui_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CImgui_Manager)
-public:
-	char* Cell_TypeIndex[5]{ "Type1", "Type2", "Type3", "Type4", "Type5" };
-
-public:
-	typedef struct DATADESC {
-		_uint TagIndex;
-		CGameObject* Object;
-	}DATADESC;
-
-	typedef struct SAVEDESC {
-		_uint TagIndex;
-		_float4x4 WorldMtx;
-	}SAVEDESC;
 
 public:
 	CImgui_Manager();
@@ -42,40 +29,7 @@ public:
 	void Shutdown(void);
 
 public:
-	//맵툴함수
-	void MapMenu_Contents();
-	void Create_Object(_int index);
-	_bool ObjectPicking();
-	_bool TilePicking(_int index);
-	void Remote_PickObj();
-	_bool SaveData();
-	_bool LoadData();
-
-	//네비메쉬함수
-	void NaviMenu_Contents();
-	_bool Remote_Navi();
-	_bool Push_Cell();
-	void Undo_NaviBox();
-	_bool SaveNavi();
-	_bool LoadNavi();
-
-private:
-	_bool Navi_Create();
-
-public:
 	bool m_bImguiEnable = false;
-	_bool m_NextPick = false;
-	CGameObject* m_PickObj = nullptr;
-	vector<DATADESC*> m_ObjectList;
-
-	//네비
-	_bool m_Navimode = false;
-	_uint m_NaviCount = 0;
-	CGameObject* m_PickNavi = nullptr;
-	vector<CELLDESC> m_Cell;
-	CGameObject* m_CreateNavi[3] = { nullptr };
-	CELLDESC m_Point = { _float3() };
-	_int m_CellType = 0;
 
 public:
 	void OnOffImgui(void) { m_bImguiEnable = !m_bImguiEnable; }

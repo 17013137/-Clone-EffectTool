@@ -53,6 +53,9 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	Safe_AddRef(pGameInstance);
 
 	lstrcpy(m_szLoading, TEXT("텍스쳐를 로드중입니다. "));
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Particle"),
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Particle/Particle(%d).dds"), 12))))
+		return E_FAIL;
 
 	/* For. Prototype_Component_Texture_Terrain */
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Terrain"),
@@ -80,30 +83,6 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_ForkLift"),
 		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/ForkLift/", "ForkLift.fbx", PivotMatrix))))
 		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_House_00"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/House/", "House00.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_House_01"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/House/", "House01.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_House_02"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/House/", "House02.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_House_03"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/House/", "House03.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_House_04"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/House/", "House04.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_CampgroundRoad"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/Road/", "CampgroundRoad.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_ParkingRoad"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/Road/", "ParkingRoad.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_LandScape"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Environment/LandScape/", "Tubing_Landscape.fbx", PivotMatrix))))
-		return E_FAIL;
 
 	lstrcpy(m_szLoading, TEXT("모델을 로드중입니다. "));
 
@@ -115,6 +94,15 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 	lstrcpy(m_szLoading, TEXT("게임오브젝트를 로드중입니다. "));
 	/* For.Prototype_GameObject_ForkLift */
 	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
+		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
+	/* For.Prototype_GameObject_Point_Effect */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Point_Effect"),
+		CPoint_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Terrain"),
 		CTerrain::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
@@ -129,43 +117,10 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Player */
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Sword"),
-		CSword::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
+	
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Bed"),
 		CBed::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_NaviFlag"),
-		CNaviFlag::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_House_00"),
-		CHouse_00::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_House_01"),
-		CHouse_01::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_House_02"),
-		CHouse_02::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_House_03"),
-		CHouse_03::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_House_04"),
-		CHouse_04::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_ParkingRoad"),
-		CParkingRoad::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_CampgroundRoad"),
-		CCampGroundRoad::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_LandScape"),
-		CLandScape::Create(m_pDevice, m_pDeviceContext))))
-		return E_FAIL;
-
 
 	lstrcpy(m_szLoading, TEXT("로딩이 완료되었습니다.. "));
 	m_isFinished = true;

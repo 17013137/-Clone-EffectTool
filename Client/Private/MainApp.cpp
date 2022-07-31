@@ -170,6 +170,15 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	/* For.Prototype_Component_VIBuffer_Rect */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_RectInstance"),
+		CVIBuffer_Rect_Instance::Create(m_pDevice, m_pDeviceContext, 10))))
+		return E_FAIL;
+	/* For. Prototype_Component_VIBuffer_PointInstance */
+	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_PointInstance"),
+		CVIBuffer_Point_Instance::Create(m_pDevice, m_pDeviceContext, 50))))
+		return E_FAIL;
+
+
 
 	/* For.Prototype_Component_Texture_Default */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_MainMenu"),
@@ -178,6 +187,9 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Texture_LoadingLogo"),
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Loading/Logo(%d).dds"), 2))))
 		return E_FAIL;
+
+
+
 
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		CCollider::Create(m_pDevice, m_pDeviceContext, CCollider::TYPE_AABB))))

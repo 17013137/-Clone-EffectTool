@@ -55,7 +55,7 @@ HRESULT CVIBuffer::Render()
 		0
 	};
 
-	m_pDeviceContext->IASetVertexBuffers(0, m_iNumVBuffers, pVertexBuffers, iStrides, iOffset);
+	m_pDeviceContext->IASetVertexBuffers(0, m_iNumVBuffers, pVertexBuffers, iStrides, iOffset);	
 	m_pDeviceContext->IASetIndexBuffer(m_pIB, m_eFormat, 0);
 	m_pDeviceContext->IASetPrimitiveTopology(m_eTopology);
 
@@ -75,7 +75,7 @@ HRESULT CVIBuffer::Create_VertexBuffer()
 	if (nullptr == m_pDevice)
 		return E_FAIL;
 
-	return m_pDevice->CreateBuffer(&m_VBDesc, &m_VBSubResourceData, &m_pVB);
+	return m_pDevice->CreateBuffer(&m_VBDesc, &m_VBSubResourceData, &m_pVB);	
 }
 
 HRESULT CVIBuffer::Create_IndexBuffer()

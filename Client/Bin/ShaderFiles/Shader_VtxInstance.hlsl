@@ -156,6 +156,19 @@ PS_OUT PS_MAIN_RECT(PS_IN In)
 	return Out;
 }
 
+PS_OUT PS_RECT_GRAY(PS_IN In)
+{
+	PS_OUT			Out;
+
+	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	Out.vColor.a = Out.vColor.x;
+
+	if (Out.vColor.a == 0.0f)
+		discard;
+
+	return Out;
+}
+
 PS_OUT PS_MAIN_POINT(PS_IN In)
 {
 	PS_OUT			Out;
@@ -177,7 +190,7 @@ technique11 DefaultTechnique
 {
 	pass Rect
 	{		
-		SetRasterizerState(RS_Default);		
+		SetRasterizerState(RS_Cull_NON);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
@@ -186,9 +199,20 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_MAIN_RECT();
 	}
 
+	pass RectGray
+	{
+		SetRasterizerState(RS_Cull_NON);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_RECT();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_RECT_GRAY();
+	}
+
 	pass Point
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_Cull_NON);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 

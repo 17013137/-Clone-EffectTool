@@ -52,9 +52,6 @@
     <Filter Include="96. Manager\Key">
       <UniqueIdentifier>{5fc47aaf-9397-4a9f-a64b-ad9199b66306}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\Sword">
-      <UniqueIdentifier>{89e78420-923e-4e93-aaba-12b3c615b86f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="02. GameObject\99.Camera">
       <UniqueIdentifier>{aa040e6e-12b4-48a7-bfa0-6ca377555fac}</UniqueIdentifier>
     </Filter>
@@ -73,161 +70,14 @@
     <Filter Include="02. GameObject\04.MapObject\Bed">
       <UniqueIdentifier>{10a9792c-7dd0-4993-801d-aff5e38f9610}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree">
-      <UniqueIdentifier>{bc2b38ce-cfb2-4d42-b132-6aa98eb57b28}</UniqueIdentifier>
+    <Filter Include="02. GameObject\Effect">
+      <UniqueIdentifier>{cc19fb81-3011-497c-ae75-1ec1275b8344}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock">
-      <UniqueIdentifier>{57c23a37-7c32-480b-bdcf-c2bdd6b8ce1d}</UniqueIdentifier>
+    <Filter Include="02. GameObject\Effect\Rect">
+      <UniqueIdentifier>{7cd44e1b-b2a2-4356-9b2f-4d0c6b6e6a05}</UniqueIdentifier>
     </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Road">
-      <UniqueIdentifier>{def9738e-6f1a-437a-9657-30052488418c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House">
-      <UniqueIdentifier>{bb77ae51-82a2-4aab-9d4f-1aa26871cc01}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Birch_Tree_01">
-      <UniqueIdentifier>{b78780cd-9201-4efb-94cb-eef1b30da09f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Birch_Tree_02">
-      <UniqueIdentifier>{d0be03ef-62dc-43e1-84db-82a1619a55d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Birch_Tree_03">
-      <UniqueIdentifier>{2c97a8f4-60dc-485f-8c53-8663f3cad594}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Birch_Tree_04">
-      <UniqueIdentifier>{e522c948-e305-40c5-a94f-cf8846125fca}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Birch_Tree_05">
-      <UniqueIdentifier>{b3cf23a7-25f1-4fe5-bbf6-e1b6fc233796}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dead_Tree_02">
-      <UniqueIdentifier>{c65f1112-e99d-4f2d-91c2-7f2764fdc97e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dead_Tree_03">
-      <UniqueIdentifier>{7dfbbdb0-5b56-4709-af3c-e94b61dc0d59}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_02">
-      <UniqueIdentifier>{52161094-5aec-4923-8ab2-1285ab8fa0c7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_03">
-      <UniqueIdentifier>{ef337b62-9a60-404a-9472-a56dd4fb90e1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_04">
-      <UniqueIdentifier>{6fca4535-6898-40de-a56a-4450334dcffb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_05">
-      <UniqueIdentifier>{1fcd1c75-c09d-4968-944f-5ceec74ceaa3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_06">
-      <UniqueIdentifier>{cadac9c7-ba78-498e-8094-a1e3bf9c91db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_07">
-      <UniqueIdentifier>{3eead240-d1af-4ed5-88f1-4372b38bcdd7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Dynamic_Tree_07b">
-      <UniqueIdentifier>{bc29e4a3-806a-4931-98ac-ca26f5e48af9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Fallen_Dynamic_Tree_01">
-      <UniqueIdentifier>{2c56d756-4e41-4020-97b4-bb5153501625}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Fallen_Dynamic_Tree_02">
-      <UniqueIdentifier>{fa74ed39-ca35-4efc-8c59-f8a6e86da824}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Fallen_Tree_01">
-      <UniqueIdentifier>{df9a3550-feea-4ea4-92fa-c7077cb6e460}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Fallen_Tree_02">
-      <UniqueIdentifier>{7c714b96-197a-407c-b0a3-ad8b6f7224d6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House\House_00">
-      <UniqueIdentifier>{84de064d-d0ec-4d13-b011-00d4cfbf86fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House\House_01">
-      <UniqueIdentifier>{e386941b-4b5c-44f3-928e-7d27ec23f439}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House\House_02">
-      <UniqueIdentifier>{3e7845b1-657a-478d-9a1c-b53f7df8ae40}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House\House_03">
-      <UniqueIdentifier>{f0a01820-0dac-4240-afdd-cca891f51ead}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\House\House_04">
-      <UniqueIdentifier>{83cc8989-5bb4-4dca-8538-ed8293ac47e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Potal">
-      <UniqueIdentifier>{31073482-baca-4099-a0e0-d9cb623cc051}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Potal\Hidden_Potal">
-      <UniqueIdentifier>{a42de514-457a-4535-b41e-b40a9343ba75}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Tree_01">
-      <UniqueIdentifier>{0a916871-7c0d-40e8-aef7-69ce92df2e92}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Tree_02">
-      <UniqueIdentifier>{0995d63c-0dfd-4eea-a9c2-9982ebb9f9f3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Tree_06">
-      <UniqueIdentifier>{5d30c722-0199-445c-9c6b-d2cdd146cf67}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Tree\Tree_07">
-      <UniqueIdentifier>{65b9645f-e873-49f4-a5e1-33a026aac447}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Potal\Potal">
-      <UniqueIdentifier>{7da2279b-a261-4a71-86e9-37e0293c64ef}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Potal\Secret_Potal">
-      <UniqueIdentifier>{1a0091de-b107-45f5-9252-d6db6e9a3513}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Road_00">
-      <UniqueIdentifier>{4e7f93ee-3003-4553-a70f-336d9c267808}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Road_01">
-      <UniqueIdentifier>{9141dd3b-46ff-4026-b94f-ec5b689bcb96}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Road_02">
-      <UniqueIdentifier>{dc8c3057-ad6c-48d9-9d34-044141e5237f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Road_03">
-      <UniqueIdentifier>{bb075502-a72e-43a7-85bb-4ac701cda327}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_01">
-      <UniqueIdentifier>{bdbfa53d-e64c-428e-a89a-b1541dcac3a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_02">
-      <UniqueIdentifier>{1d6476aa-cff2-41cc-bbe5-2003be8b42ce}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_03">
-      <UniqueIdentifier>{637c9451-1843-4e93-959f-3232a23ee6c4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_04">
-      <UniqueIdentifier>{90fc6f0d-40fb-4b1f-9450-ca50115ca97f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_05">
-      <UniqueIdentifier>{3d46843a-c8dd-4c68-8a16-2879baee9c15}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Debris_06">
-      <UniqueIdentifier>{6b49b063-21bb-44e8-ba69-6263d584e90b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Pile_01">
-      <UniqueIdentifier>{13eab7a1-4581-44e4-bdfc-288c7374f6a8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Pile_02">
-      <UniqueIdentifier>{0370ebd2-87fe-4af1-b924-5e0bf16539a1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Rock\Rock_Pile_03">
-      <UniqueIdentifier>{f610d270-d179-4f24-a29d-d005bfa8702e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Road\CampGroundRoad">
-      <UniqueIdentifier>{63870ee9-db6c-419d-a630-8924d8ac3df5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\Road\ParkingRoad">
-      <UniqueIdentifier>{9e40e40c-7601-4a8a-8697-bd5159dedf19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\NaviFlag">
-      <UniqueIdentifier>{ef66214f-5850-48f3-8e9e-944aa42023df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02. GameObject\04.MapObject\LandScape">
-      <UniqueIdentifier>{3c12daef-b3ad-42cb-a887-e07e7df7a576}</UniqueIdentifier>
+    <Filter Include="02. GameObject\Effect\Point">
+      <UniqueIdentifier>{d1750ae0-7d40-4349-8122-640d29fe6092}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -291,41 +141,17 @@
     <ClInclude Include="KeyMgr.h">
       <Filter>96. Manager\Key</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\Sword.h">
-      <Filter>02. GameObject\Sword</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\Bed.h">
       <Filter>02. GameObject\04.MapObject\Bed</Filter>
     </ClInclude>
     <ClInclude Include="..\Bin\ShaderFiles\Shader_Defines.hpp">
       <Filter>97. ShaderFiles</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\House_00.h">
-      <Filter>02. GameObject\04.MapObject\House\House_00</Filter>
+    <ClInclude Include="..\Public\Point_Effect.h">
+      <Filter>02. GameObject\Effect\Point</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\House_01.h">
-      <Filter>02. GameObject\04.MapObject\House\House_01</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\House_02.h">
-      <Filter>02. GameObject\04.MapObject\House\House_02</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\House_03.h">
-      <Filter>02. GameObject\04.MapObject\House\House_03</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\House_04.h">
-      <Filter>02. GameObject\04.MapObject\House\House_04</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\CampGroundRoad.h">
-      <Filter>02. GameObject\04.MapObject\Road\CampGroundRoad</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\ParkingRoad.h">
-      <Filter>02. GameObject\04.MapObject\Road\ParkingRoad</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\NaviFlag.h">
-      <Filter>02. GameObject\NaviFlag</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\LandScape.h">
-      <Filter>02. GameObject\04.MapObject\LandScape</Filter>
+    <ClInclude Include="..\Public\Rect_Effect.h">
+      <Filter>02. GameObject\Effect\Rect</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -374,38 +200,14 @@
     <ClCompile Include="KeyMgr.cpp">
       <Filter>96. Manager\Key</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\Sword.cpp">
-      <Filter>02. GameObject\Sword</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\Bed.cpp">
       <Filter>02. GameObject\04.MapObject\Bed</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\House_00.cpp">
-      <Filter>02. GameObject\04.MapObject\House\House_00</Filter>
+    <ClCompile Include="..\Private\Point_Effect.cpp">
+      <Filter>02. GameObject\Effect\Point</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\House_01.cpp">
-      <Filter>02. GameObject\04.MapObject\House\House_01</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\House_02.cpp">
-      <Filter>02. GameObject\04.MapObject\House\House_02</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\House_03.cpp">
-      <Filter>02. GameObject\04.MapObject\House\House_03</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\House_04.cpp">
-      <Filter>02. GameObject\04.MapObject\House\House_04</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\CampGroundRoad.cpp">
-      <Filter>02. GameObject\04.MapObject\Road\CampGroundRoad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\ParkingRoad.cpp">
-      <Filter>02. GameObject\04.MapObject\Road\ParkingRoad</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\NaviFlag.cpp">
-      <Filter>02. GameObject\NaviFlag</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\LandScape.cpp">
-      <Filter>02. GameObject\04.MapObject\LandScape</Filter>
+    <ClCompile Include="..\Private\Rect_Effect.cpp">
+      <Filter>02. GameObject\Effect\Rect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

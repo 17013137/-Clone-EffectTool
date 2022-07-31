@@ -40,9 +40,6 @@
     <ClCompile Include="..\Private\Graphic_Device.cpp">
       <Filter>00.System\Device\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\VIBuffer.cpp">
-      <Filter>01.Utility\03.Component\Model</Filter>
-    </ClCompile>
     <ClCompile Include="..\private\VIBuffer_Rect.cpp">
       <Filter>01.Utility\03.Component\Model\Rect</Filter>
     </ClCompile>
@@ -139,6 +136,15 @@
     <ClCompile Include="..\Private\VIBuffer_Line.cpp">
       <Filter>01.Utility\03.Component\Model\Line</Filter>
     </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer.cpp">
+      <Filter>01.Utility\03.Component\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBUffer_Point_Instance.cpp">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Public\Engine_Defines.h">
@@ -194,9 +200,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Graphic_Device.h">
       <Filter>00.System\Device\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\VIBuffer.h">
-      <Filter>01.Utility\03.Component\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\public\VIBuffer_Rect.h">
       <Filter>01.Utility\03.Component\Model\Rect</Filter>
@@ -293,6 +296,15 @@
     </ClInclude>
     <ClInclude Include="..\Public\VIBuffer_Line.h">
       <Filter>01.Utility\03.Component\Model\Line</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer.h">
+      <Filter>01.Utility\03.Component\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBUffer_Point_Instance.h">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +436,9 @@
     </Filter>
     <Filter Include="01.Utility\03.Component\Model\Line">
       <UniqueIdentifier>{9dfa48b1-75c2-4cf4-8b8b-7e5692a22e8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.Utility\03.Component\Model\Instance">
+      <UniqueIdentifier>{e913fd7a-476a-4df5-bc02-a5d04b18cf86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

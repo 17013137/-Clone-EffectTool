@@ -22,7 +22,7 @@ HRESULT CLevel_GamePlay::NativeConstruct()
 	if (FAILED(Ready_Lights()))
 		return E_FAIL;
 
-	if (FAILED(Ready_Layer_Player(TEXT("Layer_Player"))))
+	if (FAILED(Ready_Layer_Effect(TEXT("Layer_Effect"))))
 		return E_FAIL;
 
 	if (FAILED(Ready_Layer_Camera(TEXT("Layer_Camera"))))
@@ -30,6 +30,7 @@ HRESULT CLevel_GamePlay::NativeConstruct()
 
 	if (FAILED(Ready_Layer_BackGround(TEXT("Layer_BackGround"))))
 		return E_FAIL;
+
 
 
 	return S_OK;
@@ -42,13 +43,6 @@ void CLevel_GamePlay::Tick(_double TimeDelta)
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 
 	Safe_AddRef(pGameInstance);
-
-
-	//if (GetKeyState('G') & 0x8000)
-	//{
-	//	if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_BOSSTOWER))))
-	//		return;
-	//}
 
 	Safe_Release(pGameInstance);
 }
@@ -100,8 +94,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CCamera::CAMERADESC			CameraDesc;
 	ZeroMemory(&CameraDesc, sizeof(CCamera::CAMERADESC));
 
-	CameraDesc.vEye = _float3(0.f, 10.f, -15.f);
-	CameraDesc.vAt = _float3(0.f, 0.f, 0.f);
+	CameraDesc.vEye = _float3(7.5f, 5.0f, -5.f);
+	CameraDesc.vAt = _float3(7.5f, 5.f, 7.5f);
 	CameraDesc.vAxisY = _float3(0.f, 1.f, 0.f);
 	CameraDesc.fNear = 0.1f;
 	CameraDesc.fFar = 300.0f;
@@ -120,13 +114,14 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	return S_OK;
 }
 
-HRESULT CLevel_GamePlay::Ready_Layer_Player(const _tchar * pLayerTag)
+HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _tchar * pLayerTag)
 {
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	Safe_Release(pGameInstance);
+	pGameInstance->Add_GameObjectToLayer(LEVEL_GAMEPLAY, pLayerTag, L"Prototype_GameObject_Rect_Effect");
 
+	Safe_Release(pGameInstance);
 	return S_OK;
 }
 

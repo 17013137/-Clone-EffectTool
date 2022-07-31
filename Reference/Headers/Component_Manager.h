@@ -9,6 +9,9 @@
 #include "VIBuffer_Rect.h"
 #include "VIBuffer_Terrain.h"
 #include "VIBuffer_Line.h"
+#include "VIBUffer_Point_Instance.h"
+#include "VIBUffer_Rect_Instance.h"
+
 
 /* 컴포넌트들의 원형을 모아둔다. */
 

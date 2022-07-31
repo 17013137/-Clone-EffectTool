@@ -33,8 +33,8 @@ HRESULT CVIBuffer_Terrain::NativeConstruct_Prototype(const _tchar* pHeightMapPat
 
 #pragma region VERTEX_BUFFER
 	m_iStride = sizeof(VTXNORTEX);
-	m_iNumVerticesX = 1024;
-	m_iNumVerticesZ = 1024;
+	m_iNumVerticesX = 16;
+	m_iNumVerticesZ = 16;
 	m_iNumVertices = m_iNumVerticesX * m_iNumVerticesZ;
 	m_iNumVBuffers = 1;
 

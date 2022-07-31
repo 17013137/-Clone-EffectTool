@@ -30,7 +30,7 @@ void CLevel_Logo::Tick(_double TimeDelta)
 
 	Safe_AddRef(pGameInstance);
 
-	if (GetKeyState('G') & 0x8000)
+	if (GetKeyState(VK_SPACE) & 0x8000)
 	{
 		if (FAILED(pGameInstance->Open_Level(LEVEL_LOADING, CLevel_Loading::Create(m_pDevice, m_pDeviceContext, LEVEL_GAMEPLAY))))
 			return;
