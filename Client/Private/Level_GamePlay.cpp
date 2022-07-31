@@ -94,6 +94,7 @@ HRESULT CLevel_GamePlay::Ready_Layer_Camera(const _tchar * pLayerTag)
 	CCamera::CAMERADESC			CameraDesc;
 	ZeroMemory(&CameraDesc, sizeof(CCamera::CAMERADESC));
 
+	//Hi
 	CameraDesc.vEye = _float3(7.5f, 5.0f, -5.f);
 	CameraDesc.vAt = _float3(7.5f, 5.f, 7.5f);
 	CameraDesc.vAxisY = _float3(0.f, 1.f, 0.f);
