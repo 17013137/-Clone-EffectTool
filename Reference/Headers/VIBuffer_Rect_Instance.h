@@ -11,24 +11,24 @@ protected:
 	CVIBuffer_Rect_Instance(const CVIBuffer_Rect_Instance& rhs);
 	virtual ~CVIBuffer_Rect_Instance() = default;
 public:
-	virtual HRESULT NativeConstruct_Prototype(_uint iNumInstance);
+	virtual HRESULT NativeConstruct_Prototype(_uint flag);
 	virtual HRESULT NativeConstruct(void* pArg);
-
-public:
 	HRESULT Update(_double TimeDelta);
-
-public:
 	virtual HRESULT Render() override;
 
+public:
+	HRESULT Reset_Buffer();
+
 private:
+	PARTICLEDESC			m_Particledesc;
+	PARTICLERAND			m_RandParicle;
+
+public:
 	ID3D11Buffer*			m_pVBInstance = nullptr;
 	D3D11_BUFFER_DESC		m_VBInstDesc;
 	D3D11_SUBRESOURCE_DATA	m_VBInstSubResourceData;
 	_uint					m_iInstanceStride = 0;
-	_uint					m_iNumInstance = 0;
 
-private:
-	_float*					m_pInstanceSpeed = nullptr;
 public:
 	static CVIBuffer_Rect_Instance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, _uint iNumInstance = 1);
 	virtual CComponent* Clone(void* pArg) override;

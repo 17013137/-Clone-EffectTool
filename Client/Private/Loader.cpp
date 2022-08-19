@@ -48,13 +48,14 @@ HRESULT CLoader::NativeConstruct(LEVEL eLevel)
 
 HRESULT CLoader::Loading_ForGamePlayLevel()
 {
+
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 
 	Safe_AddRef(pGameInstance);
 
 	lstrcpy(m_szLoading, TEXT("텍스쳐를 로드중입니다. "));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Particle"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Particle/Particle(%d).dds"), 12))))
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Particle/Particle(%d).dds"), 15))))
 		return E_FAIL;
 
 	/* For. Prototype_Component_Texture_Terrain */

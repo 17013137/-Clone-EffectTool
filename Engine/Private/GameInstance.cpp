@@ -368,6 +368,22 @@ LRESULT CGameInstance::WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LP
 	return m_pImgui_Manager->WndProcHandler(hWnd, message, wParam, IParam);
 }
 
+_float CGameInstance::Get_Randomfloat(_float Start, _float End)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_real_distribution<_float> dist(Start, End);
+	return dist(gen);
+}
+
+int CGameInstance::Get_Randomint(_int Start, _int End)
+{
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<_int> dist(Start, End);
+	return dist(gen);
+}
+
 void CGameInstance::Release_Engine()
 {
 	CImgui_Manager::GetInstance()->DestroyInstance();

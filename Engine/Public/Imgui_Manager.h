@@ -27,13 +27,18 @@ public:
 	bool m_bImguiEnable = false;
 
 public:
+	PARTICLEDESC m_ParticleDesc;
+	PARTICLERAND m_RandParicle;
+	_bool m_Restart = false;
+
+public:
 	void OnOffImgui(void) { m_bImguiEnable = !m_bImguiEnable; }
 	bool isImguiEnable() { return m_bImguiEnable; }
+	class CGameObject* m_Object = nullptr;
 
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_DeviceContext = nullptr;
-
 public:
 	virtual void Free() override;
 };

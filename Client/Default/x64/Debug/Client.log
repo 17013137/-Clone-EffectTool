@@ -1,8 +1,21 @@
-﻿FXC : warning X4717: Effects deprecated for D3DCompiler_47
-  
-  compilation object save succeeded; see C:\Users\ehddj\OneDrive\바탕 화면\EffectTool\Client\Bin\Shader_VtxInstance.cso
-  Rect_Effect.cpp
+﻿  Client.cpp
+  Terrain.cpp
+  Point_Effect.cpp
+  MainApp.cpp
+  LoadingLogo.cpp
+  LoadingBar.cpp
   Loader.cpp
+  Level_Logo.cpp
+  Level_Loading.cpp
+  Level_GamePlay.cpp
+  Fork.cpp
+  Camera_First.cpp
+  Camera_Default.cpp
+  Bed.cpp
+  BackGround.cpp
   코드를 생성하고 있습니다...
-  Client.vcxproj -> C:\Users\ehddj\OneDrive\바탕 화면\EffectTool\Client\Default\..\Bin\Client.exe
+  컴파일하고 있습니다...
+  Rect_Effect.cpp
+  코드를 생성하고 있습니다...
+  Client.vcxproj -> C:\Users\ehddj\OneDrive\바탕 화면\[Clone]EffectTool\Client\Default\..\Bin\Client.exe
   Client.vcxproj -> ..\Bin\Client.pdb (Full PDB)

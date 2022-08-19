@@ -2,6 +2,7 @@
 
 #include "Client_Defines.h"
 #include "GameObject.h"
+#include "Imgui_Manager.h"
 
 BEGIN(Engine)
 class CShader;
@@ -31,11 +32,13 @@ private:
 	CShader*						m_pShaderCom = nullptr;	
 	CTexture*						m_pTextureCom = nullptr;
 	CVIBuffer_Rect_Instance*		m_pVIBufferCom = nullptr;
+	CImgui_Manager*					m_imguiMgr = nullptr;
 
 public:
-	_int m_ShaderIndex = 0;
-	_int m_ImgIndex = 0;
+	_int *m_ShaderIndex = nullptr;
+	_int *m_ImgIndex = nullptr;
 	_float3 m_Color = _float3();
+	PARTICLEDESC m_Paricledesc;
 
 
 private:

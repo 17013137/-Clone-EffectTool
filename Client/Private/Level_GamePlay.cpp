@@ -119,7 +119,8 @@ HRESULT CLevel_GamePlay::Ready_Layer_Effect(const _tchar * pLayerTag)
 	CGameInstance*		pGameInstance = CGameInstance::GetInstance();
 	Safe_AddRef(pGameInstance);
 
-	pGameInstance->Add_GameObjectToLayer(LEVEL_GAMEPLAY, pLayerTag, L"Prototype_GameObject_Rect_Effect");
+	if (FAILED(pGameInstance->Add_GameObjectToLayer(LEVEL_GAMEPLAY, pLayerTag, TEXT("Prototype_GameObject_Rect_Effect"))))
+		return E_FAIL;
 
 	Safe_Release(pGameInstance);
 	return S_OK;

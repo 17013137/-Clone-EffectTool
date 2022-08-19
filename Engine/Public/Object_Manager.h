@@ -27,6 +27,7 @@ public:
 	void Tick(_double TimeDelta);
 	void LateTick(_double TimeDelta);
 	HRESULT Clear(_uint iLevelIndex);
+	HRESULT Clear_Layer(_uint iLevelIndex, const _tchar* pLayerTag);
 	class CTransform* Get_Transform(_uint iLevelIndex, const _tchar* pLayerTag, _uint iNumIndex = 0);
 
 public:

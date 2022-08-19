@@ -80,10 +80,16 @@ public: /* For.Navigation */
 	HRESULT Render_Navigation();
 	HRESULT Render_NavigationCell(_uint iIndex);
 
+public: //·£´ýÇÔ¼ö
+
+
 public:
 	void OnOffgui();
 	HRESULT RenderImgui();
 	LRESULT WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, LPARAM IParam);
+
+	_float Get_Randomfloat(_float Start, _float End);
+	int Get_Randomint(_int Start, _int End);
 
 
 private:

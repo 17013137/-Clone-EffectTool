@@ -47,6 +47,7 @@ using namespace DirectX;
 #include <algorithm>
 #include <fstream>
 #include <tchar.h>
+#include <random>
 using namespace std;
 
 /* ¸¯Ã¼Å© */

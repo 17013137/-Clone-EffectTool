@@ -2,6 +2,29 @@
 
 namespace Engine
 {
+	typedef struct PARTICLEDESC {
+		int	ImgIndex = 0;
+		int	ShaderPass = 0;
+		int	NumInstance = 1;
+		float Speed; //속도
+		float Duration; //움직이는시간
+		XMFLOAT3 Scale;   //크기
+		XMFLOAT4 Translation; //시작포지션
+		XMFLOAT4 Direction; //이동방향
+		XMFLOAT3 Angle; //이동시 휘는각도
+	}PARTICLEDESC;
+
+	typedef struct PARTICLERAND {
+		XMFLOAT3 Direction;
+		XMFLOAT2 Scale;
+		XMFLOAT2 Speed;
+		XMFLOAT3 Translation;
+
+		XMFLOAT3 StartAngle;
+		XMFLOAT3 EndAngle;
+
+	}PARTICLERAND;
+
 	typedef struct CELLDESC {
 		XMFLOAT3 PointA;
 		XMFLOAT3 PointB;
@@ -38,7 +61,6 @@ namespace Engine
 		XMFLOAT4		vDiffuse;
 		XMFLOAT4		vAmbient;// = (1.f, 1.f, 1.f, 1.f);
 		XMFLOAT4		vSpecular;
-
 	}LIGHTDESC;
 
 	typedef struct tagMaterial
@@ -47,7 +69,6 @@ namespace Engine
 		XMFLOAT4		vAmbient;// = (0.4f, 0.4f, 0.4f, 1.f);
 		XMFLOAT4		vSpecular;
 		float			fPower;
-
 	}MATERIALDESC;
 
 	typedef struct tagVertex_Non_Anim_Model
@@ -57,7 +78,6 @@ namespace Engine
 		XMFLOAT2		vTexUV;
 		XMFLOAT3		vTangent;
 	}VTXNONANIMMODEL;
-
 
 	typedef struct ENGINE_DLL tagVertex_Non_Anim_Model_Declaration
 	{
@@ -83,6 +103,9 @@ namespace Engine
 	typedef struct tagVertex_Matrix
 	{
 		XMFLOAT4		vRight, vUp, vLook, vTranslation, vDirection;
+		XMFLOAT3		vAngle;
+		float			fSpeed;
+		double			Time;
 	}VTXMATRIX;
 
 	typedef struct ENGINE_DLL tagVertex_Instance_Declaration
@@ -149,10 +172,6 @@ namespace Engine
 		static const unsigned int iNumElements;
 		static const D3D11_INPUT_ELEMENT_DESC	Elements[2];
 	}VTXTEX_DECLARATION;
-
-
-
-
 
 	typedef struct tagVertex_Cube_Texture
 	{

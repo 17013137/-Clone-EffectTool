@@ -136,13 +136,13 @@
     <ClCompile Include="..\Private\VIBuffer_Line.cpp">
       <Filter>01.Utility\03.Component\Model\Line</Filter>
     </ClCompile>
-    <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp">
-      <Filter>01.Utility\03.Component\Model\Instance</Filter>
-    </ClCompile>
     <ClCompile Include="..\Private\VIBuffer.cpp">
       <Filter>01.Utility\03.Component\Model</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\VIBUffer_Point_Instance.cpp">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\VIBuffer_Rect_Instance.cpp">
       <Filter>01.Utility\03.Component\Model\Instance</Filter>
     </ClCompile>
   </ItemGroup>
@@ -297,13 +297,13 @@
     <ClInclude Include="..\Public\VIBuffer_Line.h">
       <Filter>01.Utility\03.Component\Model\Line</Filter>
     </ClInclude>
-    <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h">
-      <Filter>01.Utility\03.Component\Model\Instance</Filter>
-    </ClInclude>
     <ClInclude Include="..\Public\VIBuffer.h">
       <Filter>01.Utility\03.Component\Model</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\VIBUffer_Point_Instance.h">
+      <Filter>01.Utility\03.Component\Model\Instance</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\VIBuffer_Rect_Instance.h">
       <Filter>01.Utility\03.Component\Model\Instance</Filter>
     </ClInclude>
   </ItemGroup>

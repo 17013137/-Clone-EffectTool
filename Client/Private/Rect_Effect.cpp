@@ -35,7 +35,15 @@ HRESULT CRect_Effect::NativeConstruct(void * pArg)
 
 	if (FAILED(SetUp_Components()))
 		return E_FAIL;
-	
+	/* For.Com_VIBuffer */
+
+	if (FAILED(__super::SetUp_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_RectInstance"), (CComponent**)&m_pVIBufferCom, pArg)))
+		return E_FAIL;
+
+	m_imguiMgr = CImgui_Manager::GetInstance();
+	m_ImgIndex = &m_imguiMgr->m_ParticleDesc.ImgIndex;
+	m_ShaderIndex = &m_imguiMgr->m_ParticleDesc.ShaderPass;
+
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(6.0f, 2.5f, 7.5f, 1.f));
 	return S_OK;
 }
@@ -73,7 +81,7 @@ HRESULT CRect_Effect::Render()
 	if (FAILED(SetUp_ConstantTable()))
 		return E_FAIL;
 
-	m_pShaderCom->Begin(m_ShaderIndex);
+	m_pShaderCom->Begin(*m_ShaderIndex);
 
 	m_pVIBufferCom->Render();
 
@@ -94,10 +102,6 @@ HRESULT CRect_Effect::SetUp_Components()
 	if (FAILED(__super::SetUp_Components(TEXT("Com_Texture"), LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Particle"), (CComponent**)&m_pTextureCom)))
 		return E_FAIL;
 	
-	/* For.Com_VIBuffer */
-	if (FAILED(__super::SetUp_Components(TEXT("Com_VIBuffer"), LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_RectInstance"), (CComponent**)&m_pVIBufferCom)))
-		return E_FAIL;
-	
 	return S_OK;
 }
 
@@ -113,9 +117,8 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", m_ImgIndex)))
+	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", *m_ImgIndex)))
 		return E_FAIL;
-
 
 	
 	RELEASE_INSTANCE(CGameInstance);

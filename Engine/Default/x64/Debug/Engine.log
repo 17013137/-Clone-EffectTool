@@ -1,3 +1,4 @@
-﻿  VIBuffer_Terrain.cpp
-  Engine.vcxproj -> C:\Users\ehddj\OneDrive\바탕 화면\EffectTool\Engine\Default\..\Bin\Engine.dll
+﻿  VIBuffer_Rect_Instance.cpp
+c:\users\ehddj\onedrive\바탕 화면\[clone]effecttool\engine\private\vibuffer_rect_instance.cpp(86): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  Engine.vcxproj -> C:\Users\ehddj\OneDrive\바탕 화면\[Clone]EffectTool\Engine\Default\..\Bin\Engine.dll
   Engine.vcxproj -> ..\Bin\Engine.pdb (Full PDB)

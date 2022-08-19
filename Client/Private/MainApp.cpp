@@ -74,7 +74,7 @@ HRESULT CMainApp::Render()
 	if (nullptr == m_pGameInstance)
 		return E_FAIL;
 
-	m_pGameInstance->Render_Begin(_float4(0.0f, 0.f, 0.f, 1.f));
+	m_pGameInstance->Render_Begin(_float4(0.3f, 0.3f, 0.3f, 1.f));
 
 	if (FAILED(m_pRenderer->Render_GameObjects()))
 		return E_FAIL;
@@ -171,11 +171,11 @@ HRESULT CMainApp::Ready_Prototype_Component()
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_Rect"), CVIBuffer_Rect::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_RectInstance"),
-		CVIBuffer_Rect_Instance::Create(m_pDevice, m_pDeviceContext, 10))))
+		CVIBuffer_Rect_Instance::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 	/* For. Prototype_Component_VIBuffer_PointInstance */
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_VIBuffer_PointInstance"),
-		CVIBuffer_Point_Instance::Create(m_pDevice, m_pDeviceContext, 50))))
+		CVIBuffer_Point_Instance::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 
 

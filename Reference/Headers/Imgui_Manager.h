@@ -6,11 +6,6 @@ BEGIN(Engine)
 
 class CGameObject;
 
-static const char* PrototypeList[]{ "Prototype_GameObject_Bed", "Prototype_GameObject_House_00", "Prototype_GameObject_House_01", "Prototype_GameObject_House_02" , "Prototype_GameObject_House_04",
-"Prototype_GameObject_ParkingRoad", "Prototype_GameObject_CampgroundRoad", "Prototype_GameObject_LandScape" };
-
-
-
 class ENGINE_DLL CImgui_Manager final : public CBase
 {
 	DECLARE_SINGLETON(CImgui_Manager)
@@ -32,13 +27,18 @@ public:
 	bool m_bImguiEnable = false;
 
 public:
+	PARTICLEDESC m_ParticleDesc;
+	PARTICLERAND m_RandParicle;
+	_bool m_Restart = false;
+
+public:
 	void OnOffImgui(void) { m_bImguiEnable = !m_bImguiEnable; }
 	bool isImguiEnable() { return m_bImguiEnable; }
+	class CGameObject* m_Object = nullptr;
 
 private:
 	ID3D11Device* m_pDevice = nullptr;
 	ID3D11DeviceContext* m_DeviceContext = nullptr;
-
 public:
 	virtual void Free() override;
 };

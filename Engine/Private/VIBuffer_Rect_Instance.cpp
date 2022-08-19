@@ -1,4 +1,6 @@
 #include "..\Public\VIBuffer_Rect_Instance.h"
+#include "Imgui_Manager.h"
+#include "GameInstance.h"
 
 CVIBuffer_Rect_Instance::CVIBuffer_Rect_Instance(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext)
 	: CVIBuffer(pDevice, pDeviceContext)
@@ -10,18 +12,19 @@ CVIBuffer_Rect_Instance::CVIBuffer_Rect_Instance(const CVIBuffer_Rect_Instance &
 	, m_pVBInstance(rhs.m_pVBInstance)
 	, m_VBInstDesc(rhs.m_VBInstDesc)
 	, m_iInstanceStride(rhs.m_iInstanceStride)
-	, m_iNumInstance(rhs.m_iNumInstance)
-	, m_pInstanceSpeed(rhs.m_pInstanceSpeed)
+	, m_Particledesc(rhs.m_Particledesc)
 {
 	Safe_AddRef(m_pVBInstance);
 }
 
-HRESULT CVIBuffer_Rect_Instance::NativeConstruct_Prototype(_uint iNumInstance)
+HRESULT CVIBuffer_Rect_Instance::NativeConstruct_Prototype(_uint flag)
 {
+	ZeroMemory(&m_Particledesc, sizeof(PARTICLEDESC));
 #pragma region VERTEX_BUFFER
 	m_iStride = sizeof(VTXTEX);
 	m_iNumVertices = 4;
 	m_iNumVBuffers = 2;	
+	m_Particledesc.NumInstance = flag;
 
 	ZeroMemory(&m_VBDesc, sizeof(D3D11_BUFFER_DESC));
 	m_VBDesc.ByteWidth = m_iStride * m_iNumVertices;
@@ -53,88 +56,10 @@ HRESULT CVIBuffer_Rect_Instance::NativeConstruct_Prototype(_uint iNumInstance)
 
 	Safe_Delete_Array(pVertices);
 #pragma endregion
-
-
-#pragma region INSTANCE_BUFFER
-
-	m_iInstanceStride = sizeof(VTXMATRIX);
-	m_iNumInstance = iNumInstance;
-
-	ZeroMemory(&m_VBInstDesc, sizeof(D3D11_BUFFER_DESC));
-	m_VBInstDesc.ByteWidth = m_iInstanceStride * m_iNumInstance;
-	m_VBInstDesc.StructureByteStride = m_iInstanceStride;
-	m_VBInstDesc.Usage = D3D11_USAGE_DYNAMIC;
-	m_VBInstDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	m_VBInstDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-	m_VBInstDesc.MiscFlags = 0;
-
-	VTXMATRIX*		pInstanceVertices = new VTXMATRIX[m_iNumInstance];
-
-	for (_uint i = 0; i < m_iNumInstance; ++i)
-	{
-		pInstanceVertices[i].vRight = _float4(1.f, 0.f, 0.f, 0.f);
-		pInstanceVertices[i].vUp = _float4(0.f, 1.f, 0.f, 0.f);
-		pInstanceVertices[i].vLook = _float4(0.f, 0.f, 1.f, 0.f);
-		pInstanceVertices[i].vTranslation = _float4(rand() % 3, 10.0f, rand() % 3, 1.f);		
-	}
-
-	ZeroMemory(&m_VBInstSubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
-	m_VBInstSubResourceData.pSysMem = pInstanceVertices;
-
-	if (FAILED(m_pDevice->CreateBuffer(&m_VBInstDesc, &m_VBInstSubResourceData, &m_pVBInstance)))
-		return E_FAIL;
-
-	Safe_Delete_Array(pInstanceVertices);
-
-	m_pInstanceSpeed = new _float[m_iNumInstance];
-
-	for (_uint i = 0; i < m_iNumInstance; ++i)
-		m_pInstanceSpeed[i] = rand() % 10 + 5;
-#pragma endregion
-
-#pragma region INDEX_BUFFER
-
-	m_iPrimitiveIndicesSize = sizeof(FACELISTINDICES16);
-	m_iNumPrimitive = 2 * m_iNumInstance;
-	m_iNumIndicesPerPrimitive = 3;
-	m_eFormat = DXGI_FORMAT_R16_UINT;
-	m_eTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
-
-
-	ZeroMemory(&m_IBDesc, sizeof(D3D11_BUFFER_DESC));
-	m_IBDesc.ByteWidth = m_iPrimitiveIndicesSize * m_iNumPrimitive;
-	m_IBDesc.StructureByteStride = 0;
-	m_IBDesc.Usage = D3D11_USAGE_IMMUTABLE;
-	m_IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
-	m_IBDesc.CPUAccessFlags = 0;
-	m_IBDesc.MiscFlags = 0;
 	
-	FACELISTINDICES16*		pIndices = new FACELISTINDICES16[m_iNumPrimitive];
-	ZeroMemory(pIndices, sizeof(FACELISTINDICES16) * m_iNumPrimitive);
 
-	_uint		iNumFaces = 0;
-
-	for (_uint i = 0; i < m_iNumInstance; ++i)
-	{
-		pIndices[iNumFaces]._0 = 0;
-		pIndices[iNumFaces]._1 = 1;
-		pIndices[iNumFaces]._2 = 2;
-		++iNumFaces;
-
-		pIndices[iNumFaces]._0 = 0;
-		pIndices[iNumFaces]._1 = 2;
-		pIndices[iNumFaces]._2 = 3;
-		++iNumFaces;
-	}
-
-	ZeroMemory(&m_IBSubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
-	m_IBSubResourceData.pSysMem = pIndices;
-
-	if (FAILED(Create_IndexBuffer()))
+	if (FAILED(Reset_Buffer()))
 		return E_FAIL;
-#pragma endregion
-	
-	Safe_Delete_Array(pIndices);
 
 	return S_OK;
 }
@@ -149,20 +74,46 @@ HRESULT CVIBuffer_Rect_Instance::Update(_double TimeDelta)
 	if (nullptr == m_pDeviceContext)
 		return E_FAIL;
 
+	if (CImgui_Manager::GetInstance()->m_Restart == true) {
+		CImgui_Manager::GetInstance()->m_Restart = false;
+		Reset_Buffer();
+	}
+
 	D3D11_MAPPED_SUBRESOURCE			SubResource;
 
 	m_pDeviceContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
 
-	for (_uint i = 0; i < m_iNumInstance; ++i)
+	for (_uint i = 0; i < m_Particledesc.NumInstance; ++i)
 	{
-		_vector			vPosition = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation);
+		_vector vAngle = XMLoadFloat3(&m_Particledesc.Angle);
+		_vector vDir = XMLoadFloat4(&m_Particledesc.Direction);
+		_vector	vPosition = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation);
 
-		vPosition += XMVectorSet(0.f, -1.f, 0.f, 0.f) * m_pInstanceSpeed[i] * TimeDelta;
+		if (XMVectorGetX(XMVector3Length(vAngle)) > 0) {
+			vDir = XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_Particledesc.Angle.x);
+		}
+		
 
-		if (vPosition.m128_f32[1] < 0.0f)
-			vPosition.m128_f32[1] = 10.f;
-
+		vPosition += vDir * ((VTXMATRIX*)SubResource.pData)[i].fSpeed;
+		vPosition = XMVectorSetW(vPosition, 1.f);
 		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation, vPosition);
+
+
+		((VTXMATRIX*)SubResource.pData)[i].Time += TimeDelta *((VTXMATRIX*)SubResource.pData)[i].fSpeed;
+
+		if (((VTXMATRIX*)SubResource.pData)[i].Time > m_Particledesc.Duration) {
+			((VTXMATRIX*)SubResource.pData)[i].Time = 0.0;
+			if (m_RandParicle.Translation.x > 0 || m_RandParicle.Translation.y > 0 || m_RandParicle.Translation.z > 0) {
+				_float3 Translation = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.x, m_RandParicle.Translation.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.y, m_RandParicle.Translation.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.z, m_RandParicle.Translation.z));
+				((VTXMATRIX*)SubResource.pData)[i].vTranslation = _float4(m_Particledesc.Translation.x + Translation.x, m_Particledesc.Translation.y + Translation.y, m_Particledesc.Translation.z + Translation.z, 1.f);
+			}
+			else
+				((VTXMATRIX*)SubResource.pData)[i].vTranslation = m_Particledesc.Translation;
+
+			if (m_RandParicle.Speed.y > 0) {
+				((VTXMATRIX*)SubResource.pData)[i].fSpeed = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Speed.x, m_RandParicle.Speed.y);
+			}
+		}
 	}
 
 	m_pDeviceContext->Unmap(m_pVBInstance, 0);
@@ -193,9 +144,98 @@ HRESULT CVIBuffer_Rect_Instance::Render()
 	m_pDeviceContext->IASetVertexBuffers(0, m_iNumVBuffers, pVertexBuffers, iStrides, iOffset);
 	m_pDeviceContext->IASetIndexBuffer(m_pIB, m_eFormat, 0);
 	m_pDeviceContext->IASetPrimitiveTopology(m_eTopology);
+	m_pDeviceContext->DrawIndexedInstanced(6, m_Particledesc.NumInstance, 0, 0, 0);
 
-	m_pDeviceContext->DrawIndexedInstanced(6, m_iNumInstance, 0, 0, 0);
+	return S_OK;
+}
 
+HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
+{
+	m_Particledesc = CImgui_Manager::GetInstance()->m_ParticleDesc;
+	m_RandParicle = CImgui_Manager::GetInstance()->m_RandParicle;
+#pragma region INSTANCE_BUFFER
+
+	m_iInstanceStride = sizeof(VTXMATRIX);
+
+	ZeroMemory(&m_VBInstDesc, sizeof(D3D11_BUFFER_DESC));
+	m_VBInstDesc.ByteWidth = m_iInstanceStride * m_Particledesc.NumInstance;
+	m_VBInstDesc.StructureByteStride = m_iInstanceStride;
+	m_VBInstDesc.Usage = D3D11_USAGE_DYNAMIC;
+	m_VBInstDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	m_VBInstDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	m_VBInstDesc.MiscFlags = 0;
+
+	VTXMATRIX*		pInstanceVertices = new VTXMATRIX[m_Particledesc.NumInstance];
+
+	for (int i = 0; i < m_Particledesc.NumInstance; ++i)
+	{
+		//Random°ª
+		_float Scale = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Scale.x, m_RandParicle.Scale.y);
+		_float Speed = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Speed.x, m_RandParicle.Speed.y);
+		_float3 Angle = _float3(CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.x, m_RandParicle.EndAngle.x), CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.y, m_RandParicle.EndAngle.y), CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.z, m_RandParicle.EndAngle.z));
+		_float3 Direction = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.x, m_RandParicle.Direction.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.y, m_RandParicle.Direction.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.z, m_RandParicle.Direction.z));
+		_float3 Translation = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.x, m_RandParicle.Translation.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.y, m_RandParicle.Translation.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.z, m_RandParicle.Translation.z));
+
+		pInstanceVertices[i].vRight = _float4(1.f * (m_Particledesc.Scale.x + Scale) , 0.f, 0.f, 0.f);
+		pInstanceVertices[i].vUp = _float4(0.f, 1.f * (m_Particledesc.Scale.y + Scale), 0.f, 0.f);
+		pInstanceVertices[i].vLook = _float4(0.f, 0.f, 1.f * (m_Particledesc.Scale.z + Scale), 0.f);
+		pInstanceVertices[i].vTranslation = _float4(m_Particledesc.Translation.x + Translation.x, m_Particledesc.Translation.y + Translation.y, m_Particledesc.Translation.z + Translation.z, 1.f);
+		pInstanceVertices[i].vDirection = _float4(m_Particledesc.Direction.x + Direction.x, m_Particledesc.Direction.y + Direction.y, m_Particledesc.Direction.z + Direction.z, 0.f);
+		pInstanceVertices[i].vAngle = _float3(m_Particledesc.Angle.x + Angle.x, m_Particledesc.Angle.y + Angle.y, m_Particledesc.Angle.z + Angle.z) ;
+		pInstanceVertices[i].fSpeed = m_Particledesc.Speed * Speed;
+		pInstanceVertices[i].Time = 0.0;
+	}
+
+	ZeroMemory(&m_VBInstSubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
+	m_VBInstSubResourceData.pSysMem = pInstanceVertices;
+
+	if (FAILED(m_pDevice->CreateBuffer(&m_VBInstDesc, &m_VBInstSubResourceData, &m_pVBInstance)))
+		return E_FAIL;
+
+	Safe_Delete_Array(pInstanceVertices);
+#pragma endregion
+
+#pragma region INDEX_BUFFER
+
+	m_iPrimitiveIndicesSize = sizeof(FACELISTINDICES16);
+	m_iNumPrimitive = 2 * m_Particledesc.NumInstance;
+	m_iNumIndicesPerPrimitive = 3;
+	m_eFormat = DXGI_FORMAT_R16_UINT;
+	m_eTopology = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+
+	ZeroMemory(&m_IBDesc, sizeof(D3D11_BUFFER_DESC));
+	m_IBDesc.ByteWidth = m_iPrimitiveIndicesSize * m_iNumPrimitive;
+	m_IBDesc.StructureByteStride = 0;
+	m_IBDesc.Usage = D3D11_USAGE_IMMUTABLE;
+	m_IBDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
+	m_IBDesc.CPUAccessFlags = 0;
+	m_IBDesc.MiscFlags = 0;
+
+	FACELISTINDICES16*		pIndices = new FACELISTINDICES16[m_iNumPrimitive];
+	ZeroMemory(pIndices, sizeof(FACELISTINDICES16) * m_iNumPrimitive);
+
+	_uint		iNumFaces = 0;
+
+	for (int i = 0; i < m_Particledesc.NumInstance; ++i)
+	{
+		pIndices[iNumFaces]._0 = 0;
+		pIndices[iNumFaces]._1 = 1;
+		pIndices[iNumFaces]._2 = 2;
+		++iNumFaces;
+
+		pIndices[iNumFaces]._0 = 0;
+		pIndices[iNumFaces]._1 = 2;
+		pIndices[iNumFaces]._2 = 3;
+		++iNumFaces;
+	}
+
+	ZeroMemory(&m_IBSubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
+	m_IBSubResourceData.pSysMem = pIndices;
+
+	if (FAILED(Create_IndexBuffer()))
+		return E_FAIL;
+#pragma endregion
+	Safe_Delete_Array(pIndices);
 	return S_OK;
 }
 
@@ -228,10 +268,7 @@ CComponent * CVIBuffer_Rect_Instance::Clone(void * pArg)
 void CVIBuffer_Rect_Instance::Free()
 {
 	__super::Free();
-
-	if (false == m_isCloned)
-		Safe_Delete_Array(m_pInstanceSpeed);
-
+	
 	Safe_Release(m_pVBInstance);
 
 }

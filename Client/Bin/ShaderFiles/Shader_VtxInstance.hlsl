@@ -161,9 +161,9 @@ PS_OUT PS_RECT_GRAY(PS_IN In)
 	PS_OUT			Out;
 
 	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-	Out.vColor.a = Out.vColor.x;
+	Out.vColor.a = (Out.vColor.x + Out.vColor.y + Out.vColor.z) / 3.f;
 
-	if (Out.vColor.a == 0.0f)
+	if (Out.vColor.a < 0.5f)
 		discard;
 
 	return Out;

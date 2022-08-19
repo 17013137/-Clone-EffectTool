@@ -138,6 +138,20 @@ HRESULT CObject_Manager::Clear(_uint iLevelIndex)
 	return S_OK;
 }
 
+HRESULT CObject_Manager::Clear_Layer(_uint iLevelIndex, const _tchar * pLayerTag)
+{
+	if (iLevelIndex >= m_iNumLevels)
+		return E_FAIL;
+
+	CLayer* Layer = Find_Layer(iLevelIndex, pLayerTag);
+	if (Layer == nullptr)
+		return E_FAIL;
+
+	m_pLayers[iLevelIndex].clear();
+
+	return S_OK;
+}
+
 CTransform* CObject_Manager::Get_Transform(_uint iLevelIndex, const _tchar * pLayerTag, _uint iNumIndex)
 {
 	CLayer* temp = Find_Layer(iLevelIndex, pLayerTag);
