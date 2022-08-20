@@ -21,9 +21,10 @@ public:
 public:
 	_tchar* Get_TextureFilePath(void) { return m_szTextureFilePath; }
 
+public:
+	vector<ID3D11ShaderResourceView*>				m_Textures;
 private:
 	_tchar* m_szTextureFilePath = nullptr;
-	vector<ID3D11ShaderResourceView*>				m_Textures;
 	typedef vector<ID3D11ShaderResourceView*>		TEXTURES;
 
 public:

@@ -7,22 +7,22 @@ namespace Engine
 		int	ShaderPass = 0;
 		int	NumInstance = 1;
 		float Speed; //속도
+		float RotateSpeed; //속도
 		float Duration; //움직이는시간
 		XMFLOAT3 Scale;   //크기
 		XMFLOAT4 Translation; //시작포지션
 		XMFLOAT4 Direction; //이동방향
-		XMFLOAT3 Angle; //이동시 휘는각도
+		XMFLOAT3 AxisRotation; //
+
 	}PARTICLEDESC;
 
 	typedef struct PARTICLERAND {
 		XMFLOAT3 Direction;
 		XMFLOAT2 Scale;
 		XMFLOAT2 Speed;
+		XMFLOAT2 RotateSpeed;
+		XMFLOAT3 RandAxisRot;
 		XMFLOAT3 Translation;
-
-		XMFLOAT3 StartAngle;
-		XMFLOAT3 EndAngle;
-
 	}PARTICLERAND;
 
 	typedef struct CELLDESC {
@@ -105,6 +105,7 @@ namespace Engine
 		XMFLOAT4		vRight, vUp, vLook, vTranslation, vDirection;
 		XMFLOAT3		vAngle;
 		float			fSpeed;
+		float			fRotationSpeed;
 		double			Time;
 	}VTXMATRIX;
 

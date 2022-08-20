@@ -22,9 +22,7 @@ unsigned int APIENTRY ThreadEntryFunc(void* pArg)
 	case LEVEL_GAMEPLAY:
 		pLoader->Loading_ForGamePlayLevel();
 		break;
-
 	}
-
 
 	LeaveCriticalSection(&pLoader->Get_CriticalSection());
 

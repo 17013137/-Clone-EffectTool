@@ -37,7 +37,9 @@ private:
 public:
 	_int *m_ShaderIndex = nullptr;
 	_int *m_ImgIndex = nullptr;
-	_float3 m_Color = _float3();
+	_float4* m_Color1 = nullptr;
+	_float4* m_Color2 = nullptr;
+	_float* m_RemoveAlpha = nullptr;
 	PARTICLEDESC m_Paricledesc;
 
 

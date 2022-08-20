@@ -8,7 +8,14 @@ cbuffer Matrices
 
 cbuffer Camera
 {
+	float4x4		g_CamInverseMatrix;
 	vector			g_vCamPosition;
+};
+
+cbuffer Color {
+	float4 g_Color1;
+	float4 g_Color2;
+	float g_RemoveAlpha;
 };
 
 struct VS_IN
@@ -37,9 +44,13 @@ sampler DefaultSampler = sampler_state {
 };
 
 
-VS_OUT VS_MAIN_RECT(VS_IN In)
+VS_OUT VS_MAIN_RECT_BILLBOARD(VS_IN In)
 {
 	VS_OUT		Out;
+
+	In.vRight = g_CamInverseMatrix[0];
+	In.vUp = g_CamInverseMatrix[1];
+	In.vLook = g_CamInverseMatrix[2];
 
 	float4x4	InstanceMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
@@ -56,6 +67,27 @@ VS_OUT VS_MAIN_RECT(VS_IN In)
 
 	return Out;
 }
+
+VS_OUT VS_MAIN_RECT(VS_IN In)
+{
+	VS_OUT		Out;
+
+	float4x4	InstanceMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
+
+	float4x4	matWV, matWVP;
+
+	matWV = mul(g_WorldMatrix, g_ViewMatrix);
+	matWVP = mul(matWV, g_ProjMatrix);
+
+	vector		vPosition = mul(float4(In.vPosition, 1.f), InstanceMatrix);
+	vPosition = mul(vPosition, matWVP);
+
+	Out.vPosition = vPosition;
+	Out.vTexUV = In.vTexUV;
+
+	return Out;
+}
+
 
 struct VS_OUT_POINT
 {
@@ -161,9 +193,30 @@ PS_OUT PS_RECT_GRAY(PS_IN In)
 	PS_OUT			Out;
 
 	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
-	Out.vColor.a = (Out.vColor.x + Out.vColor.y + Out.vColor.z) / 3.f;
 
-	if (Out.vColor.a < 0.5f)
+	Out.vColor.a = (Out.vColor.x + Out.vColor.y + Out.vColor.z) / 3.f;
+	Out.vColor.x *= g_Color1.x;
+	Out.vColor.y *= g_Color1.y;
+	Out.vColor.z *= g_Color1.z;
+
+	if (Out.vColor.a < g_RemoveAlpha)
+		discard;
+
+	return Out;
+}
+
+PS_OUT PS_RECT_COLORALPHA(PS_IN In)
+{
+	PS_OUT			Out;
+
+	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+
+	Out.vColor.a = (Out.vColor.x + Out.vColor.y + Out.vColor.z) / 3.f;
+	Out.vColor.x = Out.vColor.x * g_Color1.x + ((1 - Out.vColor.x) * g_Color2.x);
+	Out.vColor.y = Out.vColor.y * g_Color1.y + ((1 - Out.vColor.y) * g_Color2.y);
+	Out.vColor.z = Out.vColor.z * g_Color1.z + ((1 - Out.vColor.z) * g_Color2.z);
+
+	if (Out.vColor.a < g_RemoveAlpha)
 		discard;
 
 	return Out;
@@ -188,18 +241,7 @@ PS_OUT PS_MAIN_POINT(PS_IN In)
 
 technique11 DefaultTechnique
 {
-	pass Rect
-	{		
-		SetRasterizerState(RS_Cull_NON);
-		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
-
-		VertexShader = compile vs_5_0 VS_MAIN_RECT();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_RECT();
-	}
-
-	pass RectGray
+	pass RectGray //0
 	{
 		SetRasterizerState(RS_Cull_NON);
 		SetDepthStencilState(DSS_Default, 0);
@@ -210,17 +252,38 @@ technique11 DefaultTechnique
 		PixelShader = compile ps_5_0 PS_RECT_GRAY();
 	}
 
-	pass Point
+	pass ColorAlpha//0
 	{
 		SetRasterizerState(RS_Cull_NON);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
-		VertexShader = compile vs_5_0 VS_MAIN_POINT();
-		GeometryShader = compile gs_5_0 GS_MAIN_POINT();
-		PixelShader = compile ps_5_0 PS_MAIN_POINT();
+		VertexShader = compile vs_5_0 VS_MAIN_RECT();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_RECT_COLORALPHA();
 	}
 
+	pass RectBillboard //1
+	{
+		SetRasterizerState(RS_Cull_NON);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_RECT_BILLBOARD();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_RECT_GRAY();
+	}
+
+	pass Rect //2
+	{		
+		SetRasterizerState(RS_Cull_NON);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_RECT();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_RECT();
+	}
 }
 
 

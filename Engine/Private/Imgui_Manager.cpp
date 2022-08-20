@@ -20,6 +20,7 @@ CImgui_Manager::CImgui_Manager()
 
 HRESULT CImgui_Manager::InitImGui(ID3D11Device** ppDeviceOut, ID3D11DeviceContext** ppDeviceContextOut)
 {
+
 	ImGui_ImplDX11_Init(*ppDeviceOut, *ppDeviceContextOut);
 
 	m_pDevice = *ppDeviceOut;
@@ -30,10 +31,10 @@ HRESULT CImgui_Manager::InitImGui(ID3D11Device** ppDeviceOut, ID3D11DeviceContex
 
 	ZeroMemory(&m_ParticleDesc, sizeof(PARTICLEDESC));
 	m_ParticleDesc.NumInstance = 1;
-	m_ParticleDesc.Angle = _float3(0.f, 0.f, 0.f);
+	m_ParticleDesc.AxisRotation = _float3(0.f, 0.f, 0.f);
 	m_ParticleDesc.Scale = _float3(1.f, 1.f, 1.f);
 	m_ParticleDesc.Translation = _float4(0.f, 0.f, 0.f, 1.f);
-	m_ParticleDesc.Duration = 10.f;
+	m_ParticleDesc.Duration = 100.f;
 	ZeroMemory(&m_RandParicle, sizeof(PARTICLERAND));
 	return S_OK;
 }
@@ -50,7 +51,7 @@ HRESULT CImgui_Manager::StartFrame(void)
 HRESULT CImgui_Manager::Set_Contents(void)
 {
 
-	static bool show_demo_window = false;
+	static bool show_demo_window = true;
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
@@ -64,30 +65,66 @@ HRESULT CImgui_Manager::Set_Contents(void)
 		static int counter = 0;
 
 
-		ImGui::Begin("EffectTool Ver.0.0");                        // Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("EffectTool Ver.0.0", nullptr, ImGuiWindowFlags_MenuBar);                        // Create a window called "Hello, world!" and append into it.
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 		{
 			ImGui::SetNextWindowSize(ImVec2(100, 50));
-			if (ImGui::Button("Start", ImVec2(70, 30))) {
+			if (ImGui::Button("Start", ImVec2(70, 30)))
+				m_Restart = true;
+
+			ImGui::SameLine(0, 5.f);
+
+			if (ImGui::Button("ReSet", ImVec2(70, 30))) {
+				m_Color1 = _float4(1.f, 1.f, 1.f, 1.f);
+				m_Color2 = _float4(0.f, 0.f, 0.f, 1.f);
+				ZeroMemory(&m_ParticleDesc, sizeof(PARTICLEDESC));
+				m_ParticleDesc.NumInstance = 1;
+				m_ParticleDesc.AxisRotation = _float3(0.f, 0.f, 0.f);
+				m_ParticleDesc.Scale = _float3(1.f, 1.f, 1.f);
+				m_ParticleDesc.Translation = _float4(0.f, 0.f, 0.f, 1.f);
+				m_ParticleDesc.Duration = 100.f;
+				ZeroMemory(&m_RandParicle, sizeof(PARTICLERAND));
 				m_Restart = true;
 			}
 
-			ImGui::Text("Shader State");
-			ImGui::SliderInt("Image Index", &m_ParticleDesc.ImgIndex, 0, 20);
-			ImGui::SliderInt("ShaderPass", &m_ParticleDesc.ShaderPass, 0, 10);
+			if (m_Texture != nullptr) {
+				ImGui::ImageButton(m_Texture->m_Textures[m_ParticleDesc.ImgIndex], ImVec2(50, 50));
+				_float Color[4] = { m_Color1.x, m_Color1.y, m_Color1.z, m_Color1.w};
+				_float Color2[4] = { m_Color2.x, m_Color2.y, m_Color2.z, m_Color2.w };
 
+				ImGui::ColorEdit4("ColorEdit", Color, 0);
+
+				ImGui::ColorEdit4("Color2Edit", Color2, 0);
+
+				ImGui::SliderFloat("RemoveAlpha", &m_RemoveAlpha, 0, 1.f);
+
+				m_Color1 = _float4(Color[0], Color[1], Color[2], Color[3]);
+				m_Color2 = _float4(Color2[0], Color2[1], Color2[2], Color2[3]);
+				ImGui::SliderInt("Image Index", &m_ParticleDesc.ImgIndex, 0, m_Texture->m_Textures.size()-1);
+				ImGui::SliderInt("ShaderPass", &m_ParticleDesc.ShaderPass, 0, 10);
+			}
+
+			ImGui::PushStyleColor(ImGuiCol_Border, ImColor(100, 100, 100, 255).Value);
+			ImGui::BeginChild("State", ImVec2(300, 30), true);
+			{
+				ImGui::SliderFloat("Duration", &m_ParticleDesc.Duration, 0.f, 100.f);
+
+			}
+			ImGui::EndChild();
+			ImGui::BeginChild("Basic State", ImVec2(300, 180), true);
 			ImGui::Text("Basic State");
 			ImGui::SliderInt("Num Instance", &m_ParticleDesc.NumInstance, 1, 500);
-			ImGui::SliderFloat("Speed", &m_ParticleDesc.Speed, 0.f, 10.f);
-			ImGui::SliderFloat("Duration", &m_ParticleDesc.Duration, 0.f, 100.f);
+			ImGui::SliderFloat("Speed", &m_ParticleDesc.Speed, 0.f, 5.f);
 
 			_float fScale[3] = { m_ParticleDesc.Scale.x,  m_ParticleDesc.Scale.y, m_ParticleDesc.Scale.z };
 			ImGui::SliderFloat3("Scale", fScale, 0.1f, 10.f);
 			m_ParticleDesc.Scale = _float3(fScale[0], fScale[1], fScale[2]);
 
-			_float fAngle[3] = { m_ParticleDesc.Angle.x,  m_ParticleDesc.Angle.y, m_ParticleDesc.Angle.z };
-			ImGui::SliderFloat3("Angle", fAngle, -359.9f, 359.9f);
-			m_ParticleDesc.Angle = _float3(fAngle[0], fAngle[1], fAngle[2]);
+			_float fAngle[3] = { m_ParticleDesc.AxisRotation.x,  m_ParticleDesc.AxisRotation.y, m_ParticleDesc.AxisRotation.z };
+			ImGui::SliderFloat3("RotateAxis", fAngle, -1.f, 1.f);
+			m_ParticleDesc.AxisRotation = _float3((_float)fAngle[0], (_float)fAngle[1], (_float)fAngle[2]);
+
+			ImGui::SliderFloat("RotateSpeed", &m_ParticleDesc.RotateSpeed, 0.f, 20.f);
 
 			_float fTrans[3] = { m_ParticleDesc.Translation.x,  m_ParticleDesc.Translation.y, m_ParticleDesc.Translation.z };
 			ImGui::SliderFloat3("Translation", fTrans, -20.f, 20.f);
@@ -95,42 +132,37 @@ HRESULT CImgui_Manager::Set_Contents(void)
 
 			_float fDir[3] = { m_ParticleDesc.Direction.x,  m_ParticleDesc.Direction.y, m_ParticleDesc.Direction.z };
 			ImGui::SliderFloat3("Direction", fDir, -1.f, 1.f);
-			m_ParticleDesc.Direction = _float4(fDir[0], fDir[1], fDir[2], 1.f);
+			m_ParticleDesc.Direction = _float4((_float)fDir[0], (_float)fDir[1], (_float)fDir[2], 0.f);
+			ImGui::EndChild();
 
-			ImGui::Text("Particle Range");
-				_float fRandSpeed[2] = { m_RandParicle.Speed.x, m_RandParicle.Speed.y };
-				ImGui::SliderFloat2("RandSpeed", fRandSpeed, 0.f, 10.f);
+			//랜덤값 주는곳
+			ImGui::BeginChild("Random_Range", ImVec2(300, 180), true);
+			ImGui::Text("Particle Range"); 
+			_float fRandSpeed[2] = { m_RandParicle.Speed.x, m_RandParicle.Speed.y };
+			{
+				ImGui::SliderFloat2("RandSpeed", fRandSpeed, 0.f, 3.f);
 				m_RandParicle.Speed = _float2(fRandSpeed[0], fRandSpeed[1]);
-			
+
 				_float fRandScale[2] = { m_RandParicle.Scale.x, m_RandParicle.Scale.y };
 				ImGui::SliderFloat2("RandScale", fRandScale, 0.f, 10.f);
 				m_RandParicle.Scale = _float2(fRandScale[0], fRandScale[1]);
-			
+
 				_float fRandDir[3] = { m_RandParicle.Direction.x,  m_RandParicle.Direction.y, m_RandParicle.Direction.z };
 				ImGui::SliderFloat3("RandDirection", fRandDir, 0.f, 1.f);
 				m_RandParicle.Direction = _float3(fRandDir[0], fRandDir[1], fRandDir[2]);
-			
-				ImGui::PushStyleColor(ImGuiCol_Border, ImColor(100, 100, 100, 255).Value);
-				ImGui::BeginChild("RandTranslation", ImVec2(300, 30), true);
-				{
-					_float StartTrans[3] = { m_RandParicle.Translation.x,  m_RandParicle.Translation.y, m_RandParicle.Translation.z};
-					ImGui::SliderFloat3("Translation", StartTrans, 0.f, 20.f);
-					m_RandParicle.Translation = _float3(StartTrans[0], StartTrans[1], StartTrans[2]);
-				}
-				ImGui::EndChild();
+				_float StartTrans[3] = { m_RandParicle.Translation.x,  m_RandParicle.Translation.y, m_RandParicle.Translation.z};
+				ImGui::SliderFloat3("Translation", StartTrans, 0.f, 20.f);
+				m_RandParicle.Translation = _float3(StartTrans[0], StartTrans[1], StartTrans[2]);
+				_float AxisRot[3] = { m_RandParicle.RandAxisRot.x,  m_RandParicle.RandAxisRot.y, m_RandParicle.RandAxisRot.z };
+				ImGui::SliderFloat3("Rand_Rot", AxisRot, 0.f, 1.f);
+				m_RandParicle.RandAxisRot = _float3(AxisRot[0], AxisRot[1], AxisRot[2]);
 
-				ImGui::BeginChild("RandAngle", ImVec2(300, 60), true);
-				{
-					_float StartAngle[3] = { m_RandParicle.StartAngle.x,  m_RandParicle.StartAngle.y, m_RandParicle.StartAngle.z };
-					ImGui::SliderFloat3("StartAngle", StartAngle, 0.f, 359.9f);
-					m_RandParicle.StartAngle = _float3(StartAngle[0], StartAngle[1], StartAngle[2]);
-
-					_float EndAngle[3] = { m_RandParicle.EndAngle.x,  m_RandParicle.EndAngle.y, m_RandParicle.EndAngle.z };
-					ImGui::SliderFloat3("EndAngle", EndAngle, 0.f, 359.9f);
-					m_RandParicle.EndAngle = _float3(EndAngle[0], EndAngle[1], EndAngle[2]);
-				}
-				ImGui::EndChild();
-				ImGui::PopStyleColor();
+				_float RotateSpeed[2] = { m_RandParicle.RotateSpeed.x, m_RandParicle.RotateSpeed.y };
+				ImGui::SliderFloat2("Rand_Speed", RotateSpeed, 0.f, 5.f);
+				m_RandParicle.RotateSpeed = _float2(RotateSpeed[0], RotateSpeed[1]);
+			}
+			ImGui::EndChild();
+			ImGui::PopStyleColor();
 
 		}
 		ImGui::End();

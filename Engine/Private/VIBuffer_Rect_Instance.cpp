@@ -83,21 +83,19 @@ HRESULT CVIBuffer_Rect_Instance::Update(_double TimeDelta)
 
 	m_pDeviceContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
 
-	for (_uint i = 0; i < m_Particledesc.NumInstance; ++i)
+	for (int i = 0; i < m_Particledesc.NumInstance; ++i)
 	{
-		_vector vAngle = XMLoadFloat3(&m_Particledesc.Angle);
-		_vector vDir = XMLoadFloat4(&m_Particledesc.Direction);
+		_vector vAxisRotation = XMVector3Normalize(XMLoadFloat3(&m_Particledesc.AxisRotation));
+		_vector vDir = XMVector3Normalize(XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vDirection));
 		_vector	vPosition = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation);
-
-		if (XMVectorGetX(XMVector3Length(vAngle)) > 0) {
-			vDir = XMQuaternionRotationAxis(XMVectorSet(0.f, 1.f, 0.f, 0.f), m_Particledesc.Angle.x);
-		}
 		
+		if (XMVectorGetX(XMVector3Length(vAxisRotation)) > 0) {
+			vDir = XMVector3Normalize(Rotate_Direction(TimeDelta, vDir, &((VTXMATRIX*)SubResource.pData)[i].vAngle, ((VTXMATRIX*)SubResource.pData)[i].fRotationSpeed));
+		}
 
-		vPosition += vDir * ((VTXMATRIX*)SubResource.pData)[i].fSpeed;
+		vPosition += vDir * ((VTXMATRIX*)SubResource.pData)[i].fSpeed * 0.5f;
 		vPosition = XMVectorSetW(vPosition, 1.f);
 		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation, vPosition);
-
 
 		((VTXMATRIX*)SubResource.pData)[i].Time += TimeDelta *((VTXMATRIX*)SubResource.pData)[i].fSpeed;
 
@@ -172,17 +170,19 @@ HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
 		//Random°ª
 		_float Scale = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Scale.x, m_RandParicle.Scale.y);
 		_float Speed = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Speed.x, m_RandParicle.Speed.y);
-		_float3 Angle = _float3(CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.x, m_RandParicle.EndAngle.x), CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.y, m_RandParicle.EndAngle.y), CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.StartAngle.z, m_RandParicle.EndAngle.z));
+		_float RotSpeed = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.RotateSpeed.x, m_RandParicle.RotateSpeed.y);
 		_float3 Direction = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.x, m_RandParicle.Direction.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.y, m_RandParicle.Direction.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.z, m_RandParicle.Direction.z));
 		_float3 Translation = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.x, m_RandParicle.Translation.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.y, m_RandParicle.Translation.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Translation.z, m_RandParicle.Translation.z));
+		_float3 AxisRotation = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.RandAxisRot.x, m_RandParicle.RandAxisRot.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.RandAxisRot.y, m_RandParicle.RandAxisRot.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.RandAxisRot.z, m_RandParicle.RandAxisRot.z));
 
 		pInstanceVertices[i].vRight = _float4(1.f * (m_Particledesc.Scale.x + Scale) , 0.f, 0.f, 0.f);
 		pInstanceVertices[i].vUp = _float4(0.f, 1.f * (m_Particledesc.Scale.y + Scale), 0.f, 0.f);
 		pInstanceVertices[i].vLook = _float4(0.f, 0.f, 1.f * (m_Particledesc.Scale.z + Scale), 0.f);
 		pInstanceVertices[i].vTranslation = _float4(m_Particledesc.Translation.x + Translation.x, m_Particledesc.Translation.y + Translation.y, m_Particledesc.Translation.z + Translation.z, 1.f);
 		pInstanceVertices[i].vDirection = _float4(m_Particledesc.Direction.x + Direction.x, m_Particledesc.Direction.y + Direction.y, m_Particledesc.Direction.z + Direction.z, 0.f);
-		pInstanceVertices[i].vAngle = _float3(m_Particledesc.Angle.x + Angle.x, m_Particledesc.Angle.y + Angle.y, m_Particledesc.Angle.z + Angle.z) ;
-		pInstanceVertices[i].fSpeed = m_Particledesc.Speed * Speed;
+		pInstanceVertices[i].fSpeed = m_Particledesc.Speed + Speed;
+		pInstanceVertices[i].fRotationSpeed = m_Particledesc.RotateSpeed + RotSpeed;
+		pInstanceVertices[i].vAngle = _float3(m_Particledesc.AxisRotation.x + AxisRotation.x, m_Particledesc.AxisRotation.y + AxisRotation.y, m_Particledesc.AxisRotation.z + AxisRotation.z);
 		pInstanceVertices[i].Time = 0.0;
 	}
 
@@ -238,6 +238,35 @@ HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
 	Safe_Delete_Array(pIndices);
 	return S_OK;
 }
+
+_vector CVIBuffer_Rect_Instance::Rotate_Direction(_double Timedelta, _vector Dir, _float3* vRotate, _float Speed)
+{
+	_vector vLook = Dir;
+	_vector AxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	_vector vRight = XMVector3Cross(AxisY, vLook);
+	_vector vUp = XMVector3Cross(vLook, vRight);
+
+	_matrix Mtx = XMMatrixIdentity();
+	Mtx.r[0] = vRight;
+	Mtx.r[1] = vUp;
+	Mtx.r[2] = vLook;
+
+	if (vRotate->x != 0) {
+		Mtx *= XMMatrixRotationX(vRotate->x);
+		vRotate->x += (_float)Timedelta * Speed;
+	}
+	if (vRotate->y != 0) {
+		Mtx *= XMMatrixRotationY(vRotate->y);
+		vRotate->y += (_float)Timedelta * Speed;
+	}
+	if (vRotate->z != 0) {
+		Mtx *= XMMatrixRotationZ(vRotate->z);
+		vRotate->z += (_float)Timedelta * Speed;
+	}
+	return Mtx.r[2];
+}
+
+
 
 CVIBuffer_Rect_Instance * CVIBuffer_Rect_Instance::Create(ID3D11Device * pDevice, ID3D11DeviceContext * pDeviceContext, _uint iNumInstance)
 {

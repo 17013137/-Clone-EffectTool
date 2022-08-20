@@ -43,6 +43,11 @@ HRESULT CRect_Effect::NativeConstruct(void * pArg)
 	m_imguiMgr = CImgui_Manager::GetInstance();
 	m_ImgIndex = &m_imguiMgr->m_ParticleDesc.ImgIndex;
 	m_ShaderIndex = &m_imguiMgr->m_ParticleDesc.ShaderPass;
+	m_Color1 = &m_imguiMgr->m_Color1;
+	m_Color2 = &m_imguiMgr->m_Color2;
+	m_RemoveAlpha = &m_imguiMgr->m_RemoveAlpha;
+
+	CImgui_Manager::GetInstance()->m_Texture = m_pTextureCom;
 
 	m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(6.0f, 2.5f, 7.5f, 1.f));
 	return S_OK;
@@ -117,9 +122,22 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;
 
-	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", *m_ImgIndex)))
+	_matrix InverseView = XMMatrixTranspose(XMMatrixInverse(nullptr, pGameInstance->Get_TransformMatrix(CPipeLine::D3DTS_VIEW)));
+	_float4x4 flag;
+	XMStoreFloat4x4(&flag, InverseView);
+	if (FAILED(m_pShaderCom->Set_RawValue("g_CamInverseMatrix", &flag, sizeof(_float4x4))))
 		return E_FAIL;
 
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Color1", m_Color1, sizeof(_float4))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", m_Color2, sizeof(_float4))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_RemoveAlpha", m_RemoveAlpha, sizeof(_float))))
+		return E_FAIL;
+
+
+	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", *m_ImgIndex)))
+		return E_FAIL;
 	
 	RELEASE_INSTANCE(CGameInstance);
 

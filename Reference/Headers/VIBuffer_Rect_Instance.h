@@ -18,6 +18,7 @@ public:
 
 public:
 	HRESULT Reset_Buffer();
+	_vector Rotate_Direction(_double Timedelta, _vector Dir, _float3* Angle, _float Speed);
 
 private:
 	PARTICLEDESC			m_Particledesc;
