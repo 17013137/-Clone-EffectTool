@@ -23,7 +23,7 @@ public:
 private:
 	PARTICLEDESC			m_Particledesc;
 	PARTICLERAND			m_RandParicle;
-
+	_double					m_AccTime = 0.0;
 public:
 	ID3D11Buffer*			m_pVBInstance = nullptr;
 	D3D11_BUFFER_DESC		m_VBInstDesc;

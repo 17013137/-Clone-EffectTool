@@ -16,13 +16,13 @@ cbuffer Color {
 	float4 g_Color1;
 	float4 g_Color2;
 	float g_RemoveAlpha;
+	float g_Alpha;
 };
 
 struct VS_IN
 {
 	float3		vPosition : POSITION;
 	float2		vTexUV : TEXCOORD0;
-
 	float4		vRight : TEXCOORD1;
 	float4		vUp : TEXCOORD2;
 	float4		vLook : TEXCOORD3;
@@ -48,9 +48,9 @@ VS_OUT VS_MAIN_RECT_BILLBOARD(VS_IN In)
 {
 	VS_OUT		Out;
 
-	In.vRight = g_CamInverseMatrix[0];
-	In.vUp = g_CamInverseMatrix[1];
-	In.vLook = g_CamInverseMatrix[2];
+	In.vRight = g_CamInverseMatrix[0] * length(In.vRight);
+	In.vUp = g_CamInverseMatrix[1] * length(In.vUp);;
+	In.vLook = g_CamInverseMatrix[2] * length(In.vLook);;
 
 	float4x4	InstanceMatrix = float4x4(In.vRight, In.vUp, In.vLook, In.vTranslation);
 
@@ -195,12 +195,14 @@ PS_OUT PS_RECT_GRAY(PS_IN In)
 	Out.vColor = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
 
 	Out.vColor.a = (Out.vColor.x + Out.vColor.y + Out.vColor.z) / 3.f;
-	Out.vColor.x *= g_Color1.x;
-	Out.vColor.y *= g_Color1.y;
-	Out.vColor.z *= g_Color1.z;
+	Out.vColor.x = Out.vColor.x * g_Color1.x + ((1 - Out.vColor.x) * g_Color2.x);
+	Out.vColor.y = Out.vColor.y * g_Color1.y + ((1 - Out.vColor.y) * g_Color2.y);
+	Out.vColor.z = Out.vColor.z * g_Color1.z + ((1 - Out.vColor.z) * g_Color2.z);
 
 	if (Out.vColor.a < g_RemoveAlpha)
 		discard;
+	else
+		Out.vColor.a = g_Alpha;
 
 	return Out;
 }
@@ -218,6 +220,8 @@ PS_OUT PS_RECT_COLORALPHA(PS_IN In)
 
 	if (Out.vColor.a < g_RemoveAlpha)
 		discard;
+	else
+		Out.vColor.a = g_Alpha;
 
 	return Out;
 }

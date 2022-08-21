@@ -33,7 +33,8 @@ public:
 	CTexture* m_Texture = nullptr;
 	_float4 m_Color1 = _float4(1.f, 1.f, 1.f, 1.f);
 	_float4 m_Color2 = _float4(0.f, 0.f, 0.f, 1.f);
-	_float m_RemoveAlpha = 0.0f;
+	_double* m_TotalTime = nullptr;
+
 public:
 	void OnOffImgui(void) { m_bImguiEnable = !m_bImguiEnable; }
 	bool isImguiEnable() { return m_bImguiEnable; }

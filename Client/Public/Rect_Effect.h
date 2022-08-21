@@ -35,13 +35,15 @@ private:
 	CImgui_Manager*					m_imguiMgr = nullptr;
 
 public:
+	PARTICLEDESC m_Paricledesc;
+	_bool m_isRemove = false;
 	_int *m_ShaderIndex = nullptr;
 	_int *m_ImgIndex = nullptr;
-	_float4* m_Color1 = nullptr;
-	_float4* m_Color2 = nullptr;
-	_float* m_RemoveAlpha = nullptr;
-	PARTICLEDESC m_Paricledesc;
-
+	_float4 *m_Color1 = nullptr;
+	_float4 *m_Color2 = nullptr;
+	_float *m_RemoveAlpha = nullptr;
+	_float *m_AlphaSpeed = nullptr;
+	_float *m_Alpha = nullptr;
 
 private:
 	HRESULT SetUp_Components();

@@ -9,11 +9,17 @@ namespace Engine
 		float Speed; //속도
 		float RotateSpeed; //속도
 		float Duration; //움직이는시간
+		double EndTime;
 		XMFLOAT3 Scale;   //크기
 		XMFLOAT4 Translation; //시작포지션
 		XMFLOAT4 Direction; //이동방향
 		XMFLOAT3 AxisRotation; //
-
+		bool isSetDir;
+		bool isSetParticleDir;
+		bool isRepeat;
+		float AlphaSpeed;
+		float Alpha;
+		float RemoveAlpha;
 	}PARTICLEDESC;
 
 	typedef struct PARTICLERAND {
@@ -107,6 +113,8 @@ namespace Engine
 		float			fSpeed;
 		float			fRotationSpeed;
 		double			Time;
+		XMFLOAT4		vOriginTrans;
+		XMFLOAT3		vOriginAngle;
 	}VTXMATRIX;
 
 	typedef struct ENGINE_DLL tagVertex_Instance_Declaration
