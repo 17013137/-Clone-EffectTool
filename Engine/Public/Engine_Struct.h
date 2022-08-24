@@ -2,6 +2,38 @@
 
 namespace Engine
 {
+	typedef struct MeshEffect {
+		bool isStart;
+		double Time;
+		XMFLOAT3 Scale;
+		XMFLOAT3 Dir; //라업룩
+		float DirSpeed;
+		XMFLOAT4 Color1;
+		XMFLOAT4 Color2;
+		float Alpha;
+		float StartAlpha;
+		float StartAlphaSpeed;
+		float EndAlpha;
+		float EndAlphaSpeed;
+	}MESHEFFECTDESC;
+
+	typedef struct Save_Paricle_Data {
+		int ImageIndex;
+		int ShaderIndex;
+		float RemoveAlpha;
+		XMFLOAT4 Color1;
+		XMFLOAT4 Color2;
+		XMFLOAT4 Direction;
+		bool isRepeat;
+		bool isAxisRotation;
+		bool isArriveRemove;
+		int VectorSize;
+		float Duration;
+		XMFLOAT2 RandSpeed;
+		float Speed;
+		XMFLOAT3 TotalScale;
+	}SAVEPARTICLE;
+
 	typedef struct PARTICLEDESC {
 		int	ImgIndex = 0;
 		int	ShaderPass = 0;
@@ -14,12 +46,13 @@ namespace Engine
 		XMFLOAT4 Translation; //시작포지션
 		XMFLOAT4 Direction; //이동방향
 		XMFLOAT3 AxisRotation; //
+		XMFLOAT4 Color1;
+		XMFLOAT4 Color2;
+		float RemoveAlpha;
 		bool isSetDir;
 		bool isSetParticleDir;
 		bool isRepeat;
-		float AlphaSpeed;
-		float Alpha;
-		float RemoveAlpha;
+		bool ifArriveRemove;
 	}PARTICLEDESC;
 
 	typedef struct PARTICLERAND {

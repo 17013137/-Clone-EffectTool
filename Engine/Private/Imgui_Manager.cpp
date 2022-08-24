@@ -35,9 +35,9 @@ HRESULT CImgui_Manager::InitImGui(ID3D11Device** ppDeviceOut, ID3D11DeviceContex
 	m_ParticleDesc.Scale = _float3(1.f, 1.f, 1.f);
 	m_ParticleDesc.Translation = _float4(0.f, 0.f, 0.f, 1.f);
 	m_ParticleDesc.Duration = 10.f;
-	m_ParticleDesc.AlphaSpeed = 1.f;
-	m_ParticleDesc.Alpha = 1.f;
 	m_ParticleDesc.RemoveAlpha = 0.f;
+	m_ParticleDesc.Color1 = _float4(1.f, 1.f, 1.f, 1.f);
+	m_ParticleDesc.Color2 = _float4(0.f, 0.f, 0.f, 1.f);
 	ZeroMemory(&m_RandParicle, sizeof(PARTICLERAND));
 	return S_OK;
 }
@@ -53,7 +53,6 @@ HRESULT CImgui_Manager::StartFrame(void)
 
 HRESULT CImgui_Manager::Set_Contents(void)
 {
-
 	static bool show_demo_window = false;
 
 	ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
@@ -66,68 +65,85 @@ HRESULT CImgui_Manager::Set_Contents(void)
 		static float f = 0.0f;
 		static int counter = 0;
 
-
-		ImGui::Begin("EffectTool Ver.0.0", nullptr);                        // Create a window called "Hello, world!" and append into it.
+		ImGui::Begin("EffectTool Ver.0.0", nullptr, ImGuiWindowFlags_AlwaysAutoResize);                        // Create a window called "Hello, world!" and append into it.
+		if (ImGui::Button("Particle", ImVec2(80.f, 25.f)))
+			m_Tab = 0;
+		ImGui::SameLine(0, 10.f);
+		if (ImGui::Button("MeshEffect", ImVec2(80.f, 25.f)))
+			m_Tab = 1;
 		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-		{
-			ImGui::SetNextWindowSize(ImVec2(100, 50));
-			if (ImGui::Button("Start", ImVec2(50, 20)))
+
+		//Particle Tool
+		if(m_Tab == 0){
+
+			if (m_Texture != nullptr) {
+				ImGui::ImageButton(m_Texture->m_Textures[m_ParticleDesc.ImgIndex], ImVec2(50, 50));
+				_float Color[4] = { m_ParticleDesc.Color1.x, m_ParticleDesc.Color1.y, m_ParticleDesc.Color1.z, m_ParticleDesc.Color1.w };
+				_float Color2[4] = { m_ParticleDesc.Color2.x, m_ParticleDesc.Color2.y, m_ParticleDesc.Color2.z, m_ParticleDesc.Color2.w };
+
+				ImGui::ColorEdit4("ColorEdit", Color, 0);
+				ImGui::ColorEdit4("Color2Edit", Color2, 0);
+				ImGui::SliderFloat("RemoveAlpha", &m_ParticleDesc.RemoveAlpha, 0, 1.f);
+
+				m_ParticleDesc.Color1 = _float4(Color[0], Color[1], Color[2], Color[3]);
+				m_ParticleDesc.Color2 = _float4(Color2[0], Color2[1], Color2[2], Color2[3]);
+				ImGui::SliderInt("Image Index", &m_ParticleDesc.ImgIndex, 0, m_Texture->m_Textures.size() - 1);
+				ImGui::SliderInt("ShaderPass", &m_ParticleDesc.ShaderPass, 0, 10);
+				ImGui::Checkbox("Set_ParticleDir", &m_ParticleDesc.isSetParticleDir);
+			}
+			ImGui::PushStyleColor(ImGuiCol_Border, ImColor(100, 100, 100, 255).Value);
+
+			ImGui::BeginChild("State", ImVec2(300, 90), true);
+			{
+				ImGui::SliderFloat("Duration", &m_ParticleDesc.Duration, 0.f, 10.f);
+				ImGui::Checkbox("Repeat", &m_ParticleDesc.isRepeat);
+				ImGui::SameLine(0, 10.f);
+				ImGui::Checkbox("ifArriveRemove", &m_ParticleDesc.ifArriveRemove);
+				ImGui::Text("Time : %.1f", m_AccTime);
+			}
+			ImGui::EndChild();
+
+			if (ImGui::Button("Start", ImVec2(50, 20))) {
 				m_Restart = true;
+				m_isStart = true;
+				m_isEnd = false;
+				m_AccTime = 0.0;
+			}
 
 			ImGui::SameLine(0, 5.f);
 
 			if (ImGui::Button("ReSet", ImVec2(50, 20))) {
-				m_Color1 = _float4(1.f, 1.f, 1.f, 1.f);
-				m_Color2 = _float4(0.f, 0.f, 0.f, 1.f);
 				ZeroMemory(&m_ParticleDesc, sizeof(PARTICLEDESC));
+				m_ParticleDesc.Color1 = _float4(1.f, 1.f, 1.f, 1.f);
+				m_ParticleDesc.Color2 = _float4(0.f, 0.f, 0.f, 1.f);
 				m_ParticleDesc.NumInstance = 1;
 				m_ParticleDesc.AxisRotation = _float3(0.f, 0.f, 0.f);
 				m_ParticleDesc.Scale = _float3(1.f, 1.f, 1.f);
 				m_ParticleDesc.Translation = _float4(0.f, 0.f, 0.f, 1.f);
 				m_ParticleDesc.Duration = 10.f;
-				m_ParticleDesc.AlphaSpeed = 1.f;
-				m_ParticleDesc.Alpha = 1.f;
 				m_ParticleDesc.RemoveAlpha = 0.f;
 				ZeroMemory(&m_RandParicle, sizeof(PARTICLERAND));
 				m_Restart = true;
+				m_isStart = false;
+				m_isEnd = false;
+				m_AccTime = 0.0;
+				m_TotalScale = _float3(1.f, 1.f, 1.f);
 			}
+			ImGui::SameLine(0, 5.f);
 
-			if (m_TotalTime != nullptr) {
-				ImGui::Text("Time : %.1f", *m_TotalTime);
-			}
-			if (m_Texture != nullptr) {
-				ImGui::ImageButton(m_Texture->m_Textures[m_ParticleDesc.ImgIndex], ImVec2(50, 50));
-				_float Color[4] = { m_Color1.x, m_Color1.y, m_Color1.z, m_Color1.w};
-				_float Color2[4] = { m_Color2.x, m_Color2.y, m_Color2.z, m_Color2.w };
+			_float TotalScale[3] = { m_TotalScale.x, m_TotalScale.y, m_TotalScale.z };
+			ImGui::SliderFloat3("TotalScale", TotalScale, 0.01f, 10.f);
+			
+			if (TotalScale[0] <= 0.f)
+				TotalScale[0] = 0.01f;
+			if (TotalScale[1] <= 0.f)
+				TotalScale[1] = 0.01f;
+			if (TotalScale[2] <= 0.f)
+				TotalScale[2] = 0.01f;
 
-				ImGui::ColorEdit4("ColorEdit", Color, 0);
-
-				ImGui::ColorEdit4("Color2Edit", Color2, 0);
-
-				ImGui::SliderFloat("Alpha", &m_ParticleDesc.Alpha, 0, 1.f);
-
-				ImGui::SliderFloat("RemoveAlpha", &m_ParticleDesc.RemoveAlpha, 0, 1.f);
-
-				ImGui::SliderFloat("Start/End AlphaSpeed", &m_ParticleDesc.AlphaSpeed, 0.01f, 10.f);
-
-				m_Color1 = _float4(Color[0], Color[1], Color[2], Color[3]);
-				m_Color2 = _float4(Color2[0], Color2[1], Color2[2], Color2[3]);
-				ImGui::SliderInt("Image Index", &m_ParticleDesc.ImgIndex, 0, m_Texture->m_Textures.size()-1);
-				ImGui::SliderInt("ShaderPass", &m_ParticleDesc.ShaderPass, 0, 10);
-
-				if(ImGui::TreeNode("ParticleData")) {
-					ImGui::Checkbox("Set_ParticleDir", &m_ParticleDesc.isSetParticleDir);
-					ImGui::TreePop();
-				}
-			}
-			ImGui::PushStyleColor(ImGuiCol_Border, ImColor(100, 100, 100, 255).Value);
-	
-			ImGui::BeginChild("State", ImVec2(300, 60), true);
-			{
-				ImGui::SliderFloat("Duration", &m_ParticleDesc.Duration, 0.f, 10.f);
-				ImGui::Checkbox("Repeat", &m_ParticleDesc.isRepeat);
-			}
-			ImGui::EndChild();
+			m_TotalScale.x = TotalScale[0];
+			m_TotalScale.y = TotalScale[1];
+			m_TotalScale.z = TotalScale[2];
 
 			ImGui::BeginChild("Basic State", ImVec2(300, 210), true);
 			ImGui::Text("Basic State");
@@ -135,7 +151,7 @@ HRESULT CImgui_Manager::Set_Contents(void)
 			ImGui::SliderFloat("Speed", &m_ParticleDesc.Speed, 0.f, 1.f);
 
 			_float fScale[3] = { m_ParticleDesc.Scale.x,  m_ParticleDesc.Scale.y, m_ParticleDesc.Scale.z };
-			ImGui::SliderFloat3("Scale", fScale, 0.1f, 10.f);
+			ImGui::SliderFloat3("Scale", fScale, 0.001f, 10.f);
 			m_ParticleDesc.Scale = _float3(fScale[0], fScale[1], fScale[2]);
 			_float fTrans[3] = { m_ParticleDesc.Translation.x,  m_ParticleDesc.Translation.y, m_ParticleDesc.Translation.z };
 			ImGui::SliderFloat3("Translation", fTrans, -20.f, 20.f);
@@ -143,9 +159,11 @@ HRESULT CImgui_Manager::Set_Contents(void)
 
 			ImGui::Checkbox("Set_Dir", &m_ParticleDesc.isSetDir);
 			if (m_ParticleDesc.isSetDir == true) {
+
 				_float fSetDir[3] = { m_ParticleDesc.Direction.x,  m_ParticleDesc.Direction.y, m_ParticleDesc.Direction.z };
 				ImGui::SliderFloat3("Set_Dir", fSetDir, -50.f, 50.f);
 				m_ParticleDesc.Direction = _float4(fSetDir[0], fSetDir[1], fSetDir[2], 0.f);
+
 			}
 			else {
 				_float fDir[3] = { m_ParticleDesc.Direction.x,  m_ParticleDesc.Direction.y, m_ParticleDesc.Direction.z };
@@ -162,7 +180,7 @@ HRESULT CImgui_Manager::Set_Contents(void)
 
 			//랜덤값 주는곳
 			ImGui::BeginChild("Random_Range", ImVec2(300, 180), true);
-			ImGui::Text("Particle Range"); 
+			ImGui::Text("Particle Range");
 			_float fRandSpeed[2] = { m_RandParicle.Speed.x, m_RandParicle.Speed.y };
 			{
 				ImGui::SliderFloat2("RandSpeed", fRandSpeed, 0.f, 1.f);
@@ -175,7 +193,7 @@ HRESULT CImgui_Manager::Set_Contents(void)
 				_float fRandDir[3] = { m_RandParicle.Direction.x,  m_RandParicle.Direction.y, m_RandParicle.Direction.z };
 				ImGui::SliderFloat3("RandDirection", fRandDir, 0.f, 1.f);
 				m_RandParicle.Direction = _float3(fRandDir[0], fRandDir[1], fRandDir[2]);
-				_float StartTrans[3] = { m_RandParicle.Translation.x,  m_RandParicle.Translation.y, m_RandParicle.Translation.z};
+				_float StartTrans[3] = { m_RandParicle.Translation.x,  m_RandParicle.Translation.y, m_RandParicle.Translation.z };
 				ImGui::SliderFloat3("Translation", StartTrans, 0.f, 20.f);
 				m_RandParicle.Translation = _float3(StartTrans[0], StartTrans[1], StartTrans[2]);
 				_float AxisRot[3] = { m_RandParicle.RandAxisRot.x,  m_RandParicle.RandAxisRot.y, m_RandParicle.RandAxisRot.z };
@@ -189,10 +207,54 @@ HRESULT CImgui_Manager::Set_Contents(void)
 			ImGui::EndChild();
 			ImGui::PopStyleColor();
 
+			if (ImGui::TreeNode("DummyModel")) {
+				ImGui::Checkbox("Look On/Off", &m_isDummy);
+				ImGui::SliderInt("Index", &m_DummyCnt, 0, m_DummyMaxCnt);
+
+				ImGui::TreePop();
+			}
+
+			if (ImGui::TreeNode("Save/Load")) {
+				ImGui::InputText("Tag", m_DataTag, MAX_PATH);
+				if (ImGui::Button("Save", ImVec2(50, 30)))
+					Save();
+
+				ImGui::SameLine(0, 10.f);
+				if (ImGui::Button("Load", ImVec2(50, 30)))
+					Load();
+
+				ImGui::TreePop();
+			}
+		} 
+		//MeshEffect
+
+		if (m_Tab == 1) {
+			if(ImGui::TreeNode("Mesh")) {
+				DynamicListBox(".", &m_MeshTag, &m_MeshCnt);
+				ImGui::TreePop();
+			}
+
+			if (ImGui::Button("Start", ImVec2(50.f, 25.f))) {
+				m_MeshEffDesc.isStart = true;
+				m_isEnd = false;
+				m_isStart = true;
+			}
+			ImGui::SameLine(0, 10.f);
+			if (ImGui::Button("Reset", ImVec2(50.f, 25.f))) {
+				m_MeshEffDesc.isStart = false;
+				m_isEnd = false;
+			}
+			
+			float Scale[3] = { m_MeshEffDesc.Scale.x, m_MeshEffDesc.Scale.y, m_MeshEffDesc.Scale.z };
 		}
+		
 		ImGui::End();
 	}
 
+#pragma region MeshEffect
+
+
+#pragma endregion MeshEffect
 
 	return S_OK;
 }
@@ -227,6 +289,154 @@ LRESULT CImgui_Manager::WndProcHandler(HWND hWnd, UINT message, WPARAM wParam, L
 
 void CImgui_Manager::Shutdown(void)
 {
+}
+
+void CImgui_Manager::DynamicListBox(char * NameTag, vector<Item>* ItemBox, int * SelCnt)
+{
+	ImGui::BeginListBox(NameTag);
+	int Sel = 0;
+	for (auto& iter : *ItemBox) {
+		if (ImGui::Selectable(iter.Name, &iter.is_Selected)) {
+			m_MeshCnt = Sel;
+			iter.is_Selected = true;
+		}
+		Sel++;
+	}
+
+	int i = 0;
+	for (auto& iter : *ItemBox) {
+		if (i != *SelCnt) {
+			iter.is_Selected = false;
+		}
+		i++;
+	}
+
+	ImGui::EndListBox();
+}
+
+HRESULT CImgui_Manager::Save()
+{
+	char szPath[MAX_PATH] = "../Data/ClientData/";
+	char szPath2[MAX_PATH] = ".dat";
+	char szPath3[MAX_PATH] = "../Data/ToolData/";
+	char FullPath[MAX_PATH] = "";
+
+	strcpy_s(FullPath, szPath);
+	strcat_s(FullPath, m_DataTag);
+	strcat_s(FullPath, szPath2);
+
+	_tchar		szFullPath[MAX_PATH] = TEXT("");
+
+	MultiByteToWideChar(CP_ACP, 0, FullPath, strlen(FullPath), szFullPath, MAX_PATH);
+
+	_ulong		dwByte = 0;
+	//CREATE_ALWAYS
+	HANDLE		hFile = CreateFile(szFullPath, GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
+
+	int i = 0;
+	_tchar TempPath[MAX_PATH] = L"";
+
+	while (hFile == INVALID_HANDLE_VALUE) {
+		wsprintf(TempPath, L"%d", i);
+		char Number[3] = "";
+		int len = WideCharToMultiByte(CP_ACP, 0, TempPath, -1, NULL, 0, NULL, NULL);
+		WideCharToMultiByte(CP_ACP, 0, TempPath, -1, Number, len, NULL, NULL);
+		
+		strcat_s(m_DataTag, Number);
+		char DifPath[MAX_PATH] = "";
+		strcpy_s(FullPath, szPath);
+		strcat_s(FullPath, m_DataTag);
+		strcat_s(FullPath, szPath2);
+		MultiByteToWideChar(CP_ACP, 0, FullPath, strlen(FullPath), szFullPath, MAX_PATH);
+
+		hFile = CreateFile(szFullPath, GENERIC_WRITE, 0, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
+		i++;
+	}
+
+	if (0 == hFile) {
+		MSGBOX("FAILDE CLIENT FILE !!!");
+		return false;
+	}
+
+	SAVEPARTICLE flag;
+	flag.isArriveRemove = m_ParticleDesc.ifArriveRemove;
+	if (m_ParticleDesc.AxisRotation.x != 0 || m_ParticleDesc.AxisRotation.y != 0 || m_ParticleDesc.AxisRotation.z != 0)
+		flag.isAxisRotation = true;
+	else
+		flag.isAxisRotation = false;
+
+	flag.isRepeat = m_ParticleDesc.isRepeat;
+	flag.VectorSize = (*m_SaveData).size();
+	flag.ImageIndex = m_ParticleDesc.ImgIndex;
+	flag.Color1 = m_ParticleDesc.Color1;
+	flag.Color2 = m_ParticleDesc.Color2;
+	flag.ShaderIndex = m_ParticleDesc.ShaderPass;
+	flag.RemoveAlpha = m_ParticleDesc.RemoveAlpha;
+	flag.Duration = m_ParticleDesc.Duration;
+	flag.Direction = m_ParticleDesc.Direction;
+	flag.Speed = m_ParticleDesc.Speed;
+	flag.RandSpeed = m_RandParicle.Speed;
+	flag.TotalScale = m_TotalScale;
+
+	WriteFile(hFile, &flag, sizeof(SAVEPARTICLE), &dwByte, nullptr);
+	WriteFile(hFile, (*m_SaveData).data(), sizeof(VTXMATRIX)*flag.VectorSize, &dwByte, nullptr);
+
+	CloseHandle(hFile);
+
+	_tchar		szFullPath2[MAX_PATH] = TEXT("");
+
+	strcat_s(szPath3, m_DataTag);
+	strcat_s(szPath3, szPath2);
+	MultiByteToWideChar(CP_ACP, 0, szPath3, strlen(szPath3), szFullPath2, MAX_PATH);
+
+	//CREATE_ALWAYS
+	hFile = CreateFile(szFullPath2, GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (0 == hFile) {
+		MSGBOX("FAILDE TOOLDATA FILE !!!");
+		return false;
+	}
+
+	WriteFile(hFile, &m_ParticleDesc, sizeof(m_ParticleDesc), &dwByte, nullptr);
+	WriteFile(hFile, &m_RandParicle, sizeof(m_RandParicle), &dwByte, nullptr);
+	WriteFile(hFile, &m_TotalScale, sizeof(m_TotalScale), &dwByte, nullptr);
+
+	CloseHandle(hFile);
+
+	MSGBOX("SUCCESS !!");
+
+	return S_OK;
+}
+
+HRESULT CImgui_Manager::Load()
+{
+	char szPath[MAX_PATH] = "../Data/ToolData/";
+	char szPath2[MAX_PATH] = ".dat";
+
+	strcat_s(szPath, m_DataTag);
+	strcat_s(szPath, szPath2);
+
+	_tchar		szFullPath[MAX_PATH] = TEXT("");
+	MultiByteToWideChar(CP_ACP, 0, szPath, strlen(szPath), szFullPath, MAX_PATH);
+
+	_ulong		dwByte = 0;
+	//CREATE_ALWAYS
+	HANDLE		hFile = CreateFile(szFullPath, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+
+	if (0 == hFile) {
+		MSGBOX("FAILDE CLIENT FILE !!!");
+		return false;
+	}
+
+	ReadFile(hFile, &m_ParticleDesc, sizeof(m_ParticleDesc), &dwByte, nullptr);
+	ReadFile(hFile, &m_RandParicle, sizeof(m_RandParicle), &dwByte, nullptr);
+
+	_float3 temp;
+	ReadFile(hFile, &temp, sizeof(temp), &dwByte, nullptr);
+	if (dwByte != 0)
+		m_TotalScale = temp;
+
+	return S_OK;
 }
 
 void CImgui_Manager::Free()

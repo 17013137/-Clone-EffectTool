@@ -27,6 +27,8 @@ public:
 	virtual void LateTick(_double TimeDelta) override;
 	virtual HRESULT Render() override;
 
+	
+
 private:	
 	CRenderer*						m_pRendererCom = nullptr;
 	CShader*						m_pShaderCom = nullptr;	
@@ -42,8 +44,7 @@ public:
 	_float4 *m_Color1 = nullptr;
 	_float4 *m_Color2 = nullptr;
 	_float *m_RemoveAlpha = nullptr;
-	_float *m_AlphaSpeed = nullptr;
-	_float *m_Alpha = nullptr;
+	_float m_Alpha = 1.f;
 
 private:
 	HRESULT SetUp_Components();

@@ -52,11 +52,12 @@ public:
 	void Update(_double TimeDelta);
 	HRESULT Render(class CShader* pShader, const char* pBoneMatricesName, _uint iMeshContainerIndex, _uint iPassIndex);
 	HRESULT Bind_Material_OnShader(class CShader* pShader, aiTextureType eType, const char* pConstantName, _uint iMeshContainerIndex);
-	
+
 public:
 	const _bool& Get_isAnimEnd(_uint iAnimIndex);
 	void Set_FinishFalse(_uint iAnimIndex, _bool FrameZero = true);
 	const _bool& Get_isLinear() { return m_isLinear; };
+	char* Get_FileName() { return m_FileName; }
 
 private:
 	const aiScene*			m_pScene = nullptr;
@@ -80,7 +81,7 @@ private:
 	vector<class CMeshContainer*>			m_MeshContainers;
 	typedef vector<class CMeshContainer*>	MESHCONTAINERS;
 
-private: 
+private:
 	_uint									m_iNumMaterials = 0;
 	vector<MODELMATERIAL>					m_Materials;
 	typedef vector<MODELMATERIAL>			MATERIALS;
@@ -98,13 +99,14 @@ private:
 
 private:
 	char*	m_pDatFilePath = nullptr;
+	char m_FileName[MAX_PATH] = "";
 
 private:
 	HRESULT Ready_MeshContainers();
 	HRESULT Clone_MeshContainers();
 	HRESULT Ready_Materials(const char* pModelFilePath);
 	HRESULT Ready_Animations();
-	HRESULT Clone_Animations();	
+	HRESULT Clone_Animations();
 	HRESULT Ready_HierarchyNodes(aiNode* pNode, CHierarchyNode* pParent = nullptr, _uint iDepth = 0);
 
 private:

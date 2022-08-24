@@ -188,9 +188,6 @@ HRESULT CMainApp::Ready_Prototype_Component()
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Loading/Logo(%d).dds"), 2))))
 		return E_FAIL;
 
-
-
-
 	if (FAILED(m_pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Collider_AABB"),
 		CCollider::Create(m_pDevice, m_pDeviceContext, CCollider::TYPE_AABB))))
 		return E_FAIL;

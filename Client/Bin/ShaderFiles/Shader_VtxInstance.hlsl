@@ -16,7 +16,6 @@ cbuffer Color {
 	float4 g_Color1;
 	float4 g_Color2;
 	float g_RemoveAlpha;
-	float g_Alpha;
 };
 
 struct VS_IN
@@ -201,9 +200,7 @@ PS_OUT PS_RECT_GRAY(PS_IN In)
 
 	if (Out.vColor.a < g_RemoveAlpha)
 		discard;
-	else
-		Out.vColor.a = g_Alpha;
-
+	
 	return Out;
 }
 
@@ -220,8 +217,6 @@ PS_OUT PS_RECT_COLORALPHA(PS_IN In)
 
 	if (Out.vColor.a < g_RemoveAlpha)
 		discard;
-	else
-		Out.vColor.a = g_Alpha;
 
 	return Out;
 }

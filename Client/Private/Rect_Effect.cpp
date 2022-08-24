@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "..\Public\Rect_Effect.h"
 #include "GameInstance.h"
+#include "Imgui_Manager.h"
 
 CRect_Effect::CRect_Effect(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: CGameObject(pDeviceOut, pDeviceContextOut)
@@ -43,11 +44,9 @@ HRESULT CRect_Effect::NativeConstruct(void * pArg)
 	m_imguiMgr = CImgui_Manager::GetInstance();
 	m_ImgIndex = &m_imguiMgr->m_ParticleDesc.ImgIndex;
 	m_ShaderIndex = &m_imguiMgr->m_ParticleDesc.ShaderPass;
-	m_Color1 = &m_imguiMgr->m_Color1;
-	m_Color2 = &m_imguiMgr->m_Color2;
-	m_RemoveAlpha = &m_imguiMgr->m_ParticleDesc.RemoveAlpha;
-	m_AlphaSpeed = &m_imguiMgr->m_ParticleDesc.AlphaSpeed;
-	m_Alpha = &m_imguiMgr->m_ParticleDesc.AlphaSpeed;
+	m_Color1 = &m_imguiMgr->m_ParticleDesc.Color1;
+	m_Color2 = &m_imguiMgr->m_ParticleDesc.Color2;
+	m_RemoveAlpha = &(m_imguiMgr->m_ParticleDesc.RemoveAlpha);
 
 	CImgui_Manager::GetInstance()->m_Texture = m_pTextureCom;
 
@@ -63,11 +62,12 @@ _int CRect_Effect::Tick(_double TimeDelta)
 
 	RELEASE_INSTANCE(CGameInstance);
 
-	if (FAILED(m_pVIBufferCom->Update(TimeDelta)))
-		m_isRemove = true;
+	if (CImgui_Manager::GetInstance()->m_isStart == true) {
+		m_pVIBufferCom->Update(TimeDelta);
+		CImgui_Manager::GetInstance()->m_AccTime += TimeDelta;
+	}
 
-	if (m_isRemove == true)
-		*m_Alpha -= TimeDelta * (*m_AlphaSpeed);
+	m_pTransformCom->Scaled(CImgui_Manager::GetInstance()->m_TotalScale);
 
 	return 0;
 }
@@ -76,7 +76,7 @@ void CRect_Effect::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
 
-	if (nullptr != m_pRendererCom)
+	if (nullptr != m_pRendererCom && CImgui_Manager::GetInstance()->m_Tab == 0 && CImgui_Manager::GetInstance()->m_isEnd == false)
 		m_pRendererCom->Add_RenderGroup(CRenderer::GROUP_NONBLEND, this);
 }
 
@@ -134,8 +134,6 @@ HRESULT CRect_Effect::SetUp_ConstantTable()
 	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", m_Color2, sizeof(_float4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_RemoveAlpha", m_RemoveAlpha, sizeof(_float))))
-		return E_FAIL;
-	if (FAILED(m_pShaderCom->Set_RawValue("g_Alpha", m_Alpha, sizeof(_float))))
 		return E_FAIL;
 	if (FAILED(m_pTextureCom->SetUp_ShaderResourceView(m_pShaderCom, "g_DiffuseTexture", *m_ImgIndex)))
 		return E_FAIL;

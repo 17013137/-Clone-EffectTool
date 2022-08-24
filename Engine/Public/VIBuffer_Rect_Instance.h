@@ -10,6 +10,7 @@ protected:
 	CVIBuffer_Rect_Instance(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext);
 	CVIBuffer_Rect_Instance(const CVIBuffer_Rect_Instance& rhs);
 	virtual ~CVIBuffer_Rect_Instance() = default;
+
 public:
 	virtual HRESULT NativeConstruct_Prototype(_uint flag);
 	virtual HRESULT NativeConstruct(void* pArg);
@@ -18,7 +19,7 @@ public:
 
 public:
 	HRESULT Reset_Buffer();
-	_vector Rotate_Direction(_double Timedelta, _vector Dir, _float3* Angle, _float Speed);
+	_vector Rotate_Direction(_double Timedelta, _vector Dir, _float3* vRotate, _float Speed);
 
 private:
 	PARTICLEDESC			m_Particledesc;
@@ -29,6 +30,7 @@ public:
 	D3D11_BUFFER_DESC		m_VBInstDesc;
 	D3D11_SUBRESOURCE_DATA	m_VBInstSubResourceData;
 	_uint					m_iInstanceStride = 0;
+	vector<VTXMATRIX>		m_SaveData;
 
 public:
 	static CVIBuffer_Rect_Instance* Create(ID3D11Device* pDevice, ID3D11DeviceContext* pDeviceContext, _uint iNumInstance = 1);

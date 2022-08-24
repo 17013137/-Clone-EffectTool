@@ -21,15 +21,17 @@ CModel::CModel(const CModel & rhs)
 	, m_iNumMaterials(rhs.m_iNumMaterials)
 	, m_Animations(rhs.m_Animations)
 	, m_iNumAnimations(rhs.m_iNumAnimations)
-	, m_iCurrentAnimIndex(rhs.m_iCurrentAnimIndex)	
+	, m_iCurrentAnimIndex(rhs.m_iCurrentAnimIndex)
 	, m_iPrevAnimIndex(rhs.m_iPrevAnimIndex)
 	, m_PivotMatrix(rhs.m_PivotMatrix)
 	, m_eType(rhs.m_eType)
 	, m_pDatFilePath(rhs.m_pDatFilePath)
 	, m_ClonedHierarchyNodes(rhs.m_HierarchyNodes)
 {
+	strcpy_s(m_FileName, rhs.m_FileName);
+
 	for (auto& pMeshContainer : m_MeshContainers)
-		Safe_AddRef(pMeshContainer);	
+		Safe_AddRef(pMeshContainer);
 
 	for (auto& pMaterial : m_Materials)
 	{
@@ -68,7 +70,7 @@ HRESULT CModel::NativeConstruct_Prototype(TYPE eType, const char * pModelFilePat
 
 	strcpy_s(szFullPath, pModelFilePath);
 	strcat_s(szFullPath, pModelFileName);
-
+	strcpy_s(m_FileName, pModelFileName);
 	// 만약 같은 경로의 같은 이름의 dat파일을 열었을 경우
 	string str{ szFullPath };
 	_uint lastDotPos = _uint(str.find_last_of("."));
@@ -212,7 +214,7 @@ void CModel::Update(_double TimeDelta)
 
 	/* 현재 애님에서 사용되는 뼈들의 지역행렬(m_TransformationMatrix)을 갱신했다. */
 	m_Animations[m_iCurrentAnimIndex]->Update(TimeDelta, m_Speed, m_LinearSpeed, m_isRepeat, m_VecPrevChannel, &m_isLinear);
-	
+
 	/* 노드들을 순회하면서(부모에서부터 자식으로) 갱신된 m_TransformationMatrix랑 부모행렬을 곱하여 저장한다. */
 	for (auto& pHierarchyNode : m_HierarchyNodes)
 	{
@@ -227,7 +229,7 @@ HRESULT CModel::Render(CShader* pShader, const char* pBoneMatricesName, _uint iM
 		return E_FAIL;
 
 	if (TYPE_ANIM == m_eType)
-	{	
+	{
 		_float4x4		BoneMatrices[128];
 
 		ZeroMemory(BoneMatrices, sizeof(_float4x4) * 128);
@@ -238,9 +240,9 @@ HRESULT CModel::Render(CShader* pShader, const char* pBoneMatricesName, _uint iM
 	}
 
 	pShader->Begin(iPassIndex);
-	
+
 	if (nullptr != m_MeshContainers[iMeshContainerIndex])
-		m_MeshContainers[iMeshContainerIndex]->Render();	
+		m_MeshContainers[iMeshContainerIndex]->Render();
 
 	return S_OK;
 }
@@ -251,7 +253,7 @@ HRESULT CModel::Bind_Material_OnShader(CShader * pShader, aiTextureType eType, c
 	if (iMaterialIndex >= m_iNumMaterials)
 		return E_FAIL;
 
-	return m_Materials[iMaterialIndex].pMaterials[eType]->SetUp_ShaderResourceView(pShader, pConstantName, 0);	
+	return m_Materials[iMaterialIndex].pMaterials[eType]->SetUp_ShaderResourceView(pShader, pConstantName, 0);
 }
 
 const _bool & CModel::Get_isAnimEnd(_uint iAnimIndex)
@@ -324,14 +326,14 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 			return E_FAIL;
 
 		MODELMATERIAL		Materials;
-		ZeroMemory(&Materials, sizeof(MODELMATERIAL));		
+		ZeroMemory(&Materials, sizeof(MODELMATERIAL));
 
 		for (_uint j = 0; j < AI_TEXTURE_TYPE_MAX; ++j)
 		{
 			char		szTextureFilePath[MAX_PATH] = "";
 
-			aiString	strPath;		
-			
+			aiString	strPath;
+
 			if (FAILED(pAIMaterial->GetTexture(aiTextureType(j), 0, &strPath)))
 				continue;
 
@@ -349,7 +351,7 @@ HRESULT CModel::Ready_Materials(const char* pModelFilePath)
 
 			Materials.pMaterials[j] = CTexture::Create(m_pDevice, m_pDeviceContext, szFullPath);
 			if (nullptr == Materials.pMaterials[j])
-				return S_OK;				
+				return S_OK;
 		}
 		m_Materials.push_back(Materials);
 	}
@@ -366,7 +368,7 @@ HRESULT CModel::Ready_Animations()
 
 	for (_uint i = 0; i < m_iNumAnimations; ++i)
 	{
-		aiAnimation*	pAIAnimation = m_pScene->mAnimations[i];		
+		aiAnimation*	pAIAnimation = m_pScene->mAnimations[i];
 
 		CAnimation*		pAnimation = CAnimation::Create(pAIAnimation, m_HierarchyNodes);
 		if (nullptr == pAnimation)
@@ -381,7 +383,7 @@ HRESULT CModel::Ready_Animations()
 HRESULT CModel::Clone_Animations()
 {
 	if (nullptr == m_pScene)
-		return E_FAIL;	
+		return E_FAIL;
 
 	vector<CAnimation*>		Animations;
 
@@ -769,7 +771,7 @@ void CModel::Free()
 		for (_uint i = 0; i < AI_TEXTURE_TYPE_MAX; ++i)
 		{
 			Safe_Release(pMaterial.pMaterials[i]);
-		}		
+		}
 	}
 	m_Materials.clear();
 

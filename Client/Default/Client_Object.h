@@ -7,3 +7,5 @@
 #include "Bed.h"
 #include "Rect_Effect.h"
 #include "Point_Effect.h"
+#include "MeshEffect.h"
+#include "DummyModel.h"

@@ -1,8 +1,8 @@
 #include "stdafx.h"
 #include "..\Public\Loader.h"
 #include "GameInstance.h"
-
 #include "Client_Object.h"
+
 
 CLoader::CLoader(ID3D11Device* pDeviceOut, ID3D11DeviceContext* pDeviceContextOut)
 	: m_pDevice(pDeviceOut), m_pDeviceContext(pDeviceContextOut)
@@ -53,7 +53,7 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 
 	lstrcpy(m_szLoading, TEXT("텍스쳐를 로드중입니다. "));
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Texture_Particle"),
-		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Particle/Particle(%d).dds"), 15))))
+		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Resources/Textures/Particle/Particle(%d).dds"), 16))))
 		return E_FAIL;
 
 	/* For. Prototype_Component_Texture_Terrain */
@@ -71,30 +71,55 @@ HRESULT CLoader::Loading_ForGamePlayLevel()
 		CTexture::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Terrain/Brush.png"), 1))))
 		return E_FAIL;
 
-	_matrix			PivotMatrix;
-
-	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(0.01f));
-
-
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Bed"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/Bed/", "Bed.fbx", PivotMatrix))))
-		return E_FAIL;
-	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_ForkLift"),
-		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Model/ForkLift/", "ForkLift.fbx", PivotMatrix))))
-		return E_FAIL;
-
-	lstrcpy(m_szLoading, TEXT("모델을 로드중입니다. "));
-
 	/* For. Prototype_Component_VIBuffer_Terrain*/
 	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_VIBuffer_Terrain"),
 		CVIBuffer_Terrain::Create(m_pDevice, m_pDeviceContext, TEXT("../Bin/Resources/Textures/Terrain/Height.bmp")))))
 		return E_FAIL;
+
+	lstrcpy(m_szLoading, TEXT("모델을 로드중입니다. "));
+	_matrix			PivotMatrix;
 	
+	PivotMatrix = XMMatrixScaling(0.01f, 0.01f, 0.01f) * XMMatrixRotationY(XMConvertToRadians(0.01f));
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_DummyPlayer"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Mesh/Dummy/TempPlayer/", "TempPlayer.fbx", PivotMatrix))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_DummyPortion"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Mesh/Dummy/TempPortion/", "TempPortion.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+	PivotMatrix = XMMatrixScaling(0.1f, 0.1f, 0.1f) * XMMatrixRotationY(XMConvertToRadians(90.f));
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_Bed"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Mesh/Bed/", "Bed.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_GAMEPLAY, TEXT("Prototype_Component_Model_ForkLift"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Mesh/ForkLift/", "ForkLift.fbx", PivotMatrix))))
+		return E_FAIL;
+
+	if (FAILED(pGameInstance->Add_Prototype(LEVEL_STATIC, TEXT("Prototype_Component_Model_BoxingEffect"),
+		CModel::Create(m_pDevice, m_pDeviceContext, CModel::TYPE_NONANIM, "../Resources/Mesh/MeshEffect/", "Boxing_Effect0.fbx", PivotMatrix))))
+		return E_FAIL;
+
+
+
+
+
+
 	lstrcpy(m_szLoading, TEXT("게임오브젝트를 로드중입니다. "));
 	/* For.Prototype_GameObject_ForkLift */
 	/* For.Prototype_GameObject_Terrain */
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_MeshEffect"),
+		CMeshEffect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+
 	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_Rect_Effect"),
 		CRect_Effect::Create(m_pDevice, m_pDeviceContext))))
+		return E_FAIL;
+	if (FAILED(pGameInstance->Add_Prototype(TEXT("Prototype_GameObject_DummyModel"),
+		CDummyModel::Create(m_pDevice, m_pDeviceContext))))
 		return E_FAIL;
 
 	/* For.Prototype_GameObject_Point_Effect */

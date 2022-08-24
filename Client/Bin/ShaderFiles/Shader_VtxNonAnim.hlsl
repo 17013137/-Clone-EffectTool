@@ -118,7 +118,6 @@ PS_OUT PS_MAIN_MODEL(PS_IN_MODEL In)
 	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
 	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 300.0f, 0.f, 0.f);
 
-
 	if (vMtrlDiffuse.a < 0.1f)
 		discard;
 
@@ -129,7 +128,7 @@ technique11 DefaultTechnique
 {	
 	pass Model
 	{
-		SetRasterizerState(RS_Default);
+		SetRasterizerState(RS_Cull_NON);
 		SetDepthStencilState(DSS_Default, 0);
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 

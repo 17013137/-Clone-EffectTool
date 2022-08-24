@@ -79,6 +79,12 @@
     <Filter Include="02. GameObject\Effect\Point">
       <UniqueIdentifier>{d1750ae0-7d40-4349-8122-640d29fe6092}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02. GameObject\Effect\Mesh">
+      <UniqueIdentifier>{40352bc3-17da-45b6-97cf-63c630a5faf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02. GameObject\Dummy">
+      <UniqueIdentifier>{b5025289-4449-4999-affb-8dd05acb3a9d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -101,9 +107,6 @@
     </ClInclude>
     <ClInclude Include="..\Public\Client_Defines.h">
       <Filter>99. Defines</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Public\Level_GamePlay.h">
-      <Filter>01. Levels\02. GamePlay</Filter>
     </ClInclude>
     <ClInclude Include="..\Public\Level_Loading.h">
       <Filter>01. Levels\01. Loading</Filter>
@@ -153,6 +156,15 @@
     <ClInclude Include="..\Public\Rect_Effect.h">
       <Filter>02. GameObject\Effect\Rect</Filter>
     </ClInclude>
+    <ClInclude Include="..\Public\Level_GamePlay.h">
+      <Filter>01. Levels\02. GamePlay</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\MeshEffect.h">
+      <Filter>02. GameObject\Effect\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Public\DummyModel.h">
+      <Filter>02. GameObject\Dummy</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Client.cpp">
@@ -163,9 +175,6 @@
     </ClCompile>
     <ClCompile Include="..\Private\MainApp.cpp">
       <Filter>00. MainApp</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Private\Level_GamePlay.cpp">
-      <Filter>01. Levels\02. GamePlay</Filter>
     </ClCompile>
     <ClCompile Include="..\Private\Level_Loading.cpp">
       <Filter>01. Levels\01. Loading</Filter>
@@ -208,6 +217,15 @@
     </ClCompile>
     <ClCompile Include="..\Private\Rect_Effect.cpp">
       <Filter>02. GameObject\Effect\Rect</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\Level_GamePlay.cpp">
+      <Filter>01. Levels\02. GamePlay</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\MeshEffect.cpp">
+      <Filter>02. GameObject\Effect\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Private\DummyModel.cpp">
+      <Filter>02. GameObject\Dummy</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

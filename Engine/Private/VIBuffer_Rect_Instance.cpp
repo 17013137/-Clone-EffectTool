@@ -77,7 +77,6 @@ HRESULT CVIBuffer_Rect_Instance::Update(_double TimeDelta)
 
 	if (CImgui_Manager::GetInstance()->m_Restart == true) {
 		CImgui_Manager::GetInstance()->m_Restart = false;
-		CImgui_Manager::GetInstance()->m_TotalTime = &m_AccTime;
 		Reset_Buffer();
 	}
 	
@@ -85,9 +84,11 @@ HRESULT CVIBuffer_Rect_Instance::Update(_double TimeDelta)
 
 	m_pDeviceContext->Map(m_pVBInstance, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &SubResource);
 
+	float MinTime = (_float)INT_MAX;
+
 	for (int i = 0; i < m_Particledesc.NumInstance; ++i)
 	{
-		_vector vAxisRotation = XMVector3Normalize(XMLoadFloat3(&m_Particledesc.AxisRotation));
+		_vector vAxisRotation = XMVector3Normalize(XMLoadFloat3(&((VTXMATRIX*)SubResource.pData)[i].vAngle));
 		_vector vDir = XMVector3Normalize(XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vDirection));
 		_vector	vPosition = XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation);
 		
@@ -98,20 +99,35 @@ HRESULT CVIBuffer_Rect_Instance::Update(_double TimeDelta)
 		vPosition += vDir * ((VTXMATRIX*)SubResource.pData)[i].fSpeed * 0.5f;
 		XMStoreFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation, vPosition);
 
-		((VTXMATRIX*)SubResource.pData)[i].Time += TimeDelta *( 1 + ((VTXMATRIX*)SubResource.pData)[i].fSpeed);
+		((VTXMATRIX*)SubResource.pData)[i].Time += TimeDelta * (((VTXMATRIX*)SubResource.pData)[i].fSpeed * 10.f);
 
-		if (((VTXMATRIX*)SubResource.pData)[i].Time > m_Particledesc.Duration && m_Particledesc.isRepeat == true) {
+		if (m_Particledesc.ifArriveRemove == true) {
+			_vector vPos = XMLoadFloat4(&m_Particledesc.Direction) - XMLoadFloat4(&((VTXMATRIX*)SubResource.pData)[i].vTranslation); 
+			XMVectorSetW(vPos, 0.f);
+			if (XMVectorGetX(XMVector3Length(vPos)) < 0.5f)
+				((VTXMATRIX*)SubResource.pData)[i].vTranslation.w = 0.f;
+		}
+
+		MinTime = min(MinTime, ((VTXMATRIX*)SubResource.pData)[i].Time);
+
+		if (((VTXMATRIX*)SubResource.pData)[i].Time > m_Particledesc.Duration && m_Particledesc.isRepeat == false) {
+			((VTXMATRIX*)SubResource.pData)[i].vTranslation.w = 0.f;
+		}
+		else if (((VTXMATRIX*)SubResource.pData)[i].Time > m_Particledesc.Duration && m_Particledesc.isRepeat == true) {
 			((VTXMATRIX*)SubResource.pData)[i].Time = 0.0;
 			((VTXMATRIX*)SubResource.pData)[i].vTranslation = ((VTXMATRIX*)SubResource.pData)[i].vOriginTrans;
 			((VTXMATRIX*)SubResource.pData)[i].vAngle = ((VTXMATRIX*)SubResource.pData)[i].vOriginAngle;
+			_float Speed = CGameInstance::GetInstance()->Get_Randomfloat(m_RandParicle.Speed.x, m_RandParicle.Speed.y);
+			((VTXMATRIX*)SubResource.pData)[i].fSpeed = m_Particledesc.Speed + Speed;
 		}
 	}
-	m_pDeviceContext->Unmap(m_pVBInstance, 0);
-	m_AccTime += TimeDelta;
-	if (m_AccTime >= m_Particledesc.Duration) {
-		return E_FAIL;
+
+	if (m_Particledesc.isRepeat == false && MinTime > m_Particledesc.Duration) {
+		CImgui_Manager::GetInstance()->m_isEnd = true;
+		CImgui_Manager::GetInstance()->m_isStart = false;
 	}
 
+	m_pDeviceContext->Unmap(m_pVBInstance, 0);
 	return S_OK;
 }
 
@@ -145,6 +161,8 @@ HRESULT CVIBuffer_Rect_Instance::Render()
 
 HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
 {
+	CImgui_Manager::GetInstance()->m_SaveData = &m_SaveData;
+	m_SaveData.clear();
 	m_AccTime = 0.0;
 	m_Particledesc = CImgui_Manager::GetInstance()->m_ParticleDesc;
 	m_RandParicle = CImgui_Manager::GetInstance()->m_RandParicle;
@@ -183,6 +201,7 @@ HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
 		if (m_Particledesc.isSetDir == true) {
 			Direction = _float3(m_Particledesc.Direction.x - pInstanceVertices[i].vTranslation.x, m_Particledesc.Direction.z - pInstanceVertices[i].vTranslation.y, m_Particledesc.Direction.z - pInstanceVertices[i].vTranslation.z);
 			pInstanceVertices[i].vDirection = _float4(Direction.x, Direction.y, Direction.z, 0.f);
+
 		}
 		else {
 			Direction = _float3(CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.x, m_RandParicle.Direction.x), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.y, m_RandParicle.Direction.y), CGameInstance::GetInstance()->Get_Randomfloat(-m_RandParicle.Direction.z, m_RandParicle.Direction.z));
@@ -203,6 +222,8 @@ HRESULT CVIBuffer_Rect_Instance::Reset_Buffer()
 			pInstanceVertices[i].vUp = _float4(0.f, 1.f * (m_Particledesc.Scale.y + Scale), 0.f, 0.f);
 			pInstanceVertices[i].vLook = _float4(0.f, 0.f, 1.f * (m_Particledesc.Scale.z + Scale), 0.f);
 		}
+
+		m_SaveData.push_back(pInstanceVertices[i]);
 	}
 
 	ZeroMemory(&m_VBInstSubResourceData, sizeof(D3D11_SUBRESOURCE_DATA));
@@ -262,6 +283,9 @@ _vector CVIBuffer_Rect_Instance::Rotate_Direction(_double Timedelta, _vector Dir
 {
 	_vector vLook = Dir;
 	_vector AxisY = XMVectorSet(0.f, 1.f, 0.f, 0.f);
+	if (XMVectorGetY(vLook) > 0.f && XMVectorGetX(vLook) == 0.f && XMVectorGetZ(vLook) == 0.f) {
+		AxisY = XMVectorSet(0.f, 0.f, 1.f, 0.f);
+	}
 	_vector vRight = XMVector3Cross(AxisY, vLook);
 	_vector vUp = XMVector3Cross(vLook, vRight);
 
@@ -272,16 +296,26 @@ _vector CVIBuffer_Rect_Instance::Rotate_Direction(_double Timedelta, _vector Dir
 
 	if (vRotate->x != 0) {
 		Mtx *= XMMatrixRotationAxis(vRight ,vRotate->x);
-		vRotate->x += (_float)Timedelta * Speed;
+		if(vRotate->x > 0)
+			vRotate->x += (_float)Timedelta * Speed;
+		else
+			vRotate->x += -(_float)Timedelta * Speed;
 	}
 	if (vRotate->y != 0) {
 		Mtx *= XMMatrixRotationAxis(vUp, vRotate->y);
-		vRotate->y += (_float)Timedelta * Speed;
+		if (vRotate->y > 0)
+			vRotate->y += (_float)Timedelta * Speed;
+		else
+			vRotate->y += -(_float)Timedelta * Speed;
 	}
 	if (vRotate->z != 0) {
 		Mtx *= XMMatrixRotationAxis(vLook, vRotate->z);
-		vRotate->z += (_float)Timedelta * Speed;
+		if(vRotate->z > 0)
+			vRotate->z += (_float)Timedelta * Speed;
+		else
+			vRotate->z += -(_float)Timedelta * Speed;
 	}
+
 	return Mtx.r[2];
 }
 
