@@ -38,6 +38,7 @@ private:
 private:
 	vector<CModel*> m_Models;
 	vector<char*> m_NameTag;
+	MESHEFFECTDESC* m_EffectDesc = nullptr;
 
 private:
 	_uint m_ModelIndex = 0;

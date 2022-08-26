@@ -32,6 +32,9 @@ public:
 	HRESULT Save();
 	HRESULT Load();
 
+public: //메쉬이펙트 함수
+	void Start_MeshEffect();
+	void Reset_MeshEffect();
 public:
 	bool m_bImguiEnable = false;
 
@@ -43,14 +46,15 @@ public:  //파티클
 	_double* m_TotalTime = nullptr;
 	char m_DataTag[MAX_PATH] = ""; //파티클 Save/Load
 	vector<VTXMATRIX>* m_SaveData = nullptr;
-	_bool m_isEnd = false;
 	_bool m_isStart = false;
+	_bool m_isEnd = false;
 	_double m_AccTime = 0.0;
 
 public: //메쉬 이펙트
 	vector<Item> m_MeshTag;
 	_int m_MeshCnt = 0;
 	MESHEFFECTDESC m_MeshEffDesc;
+
 
 public: //탭
 	_int m_Tab = 0;

@@ -17,6 +17,13 @@ sampler DefaultSampler = sampler_state {
 	AddressV = wrap;
 };
 
+cbuffer EffectMeshData{
+	float g_RemoveAlpha;
+	float g_Alpha;
+	float3 g_Color1;
+	float3 g_Color2;
+}
+
 sampler PointSampler = sampler_state {
 	filter = min_mag_mip_point;
 	AddressU = wrap;
@@ -124,8 +131,48 @@ PS_OUT PS_MAIN_MODEL(PS_IN_MODEL In)
 	return Out;
 }
 
+PS_OUT PS_MAIN_GREY(PS_IN_MODEL In)
+{
+	PS_OUT			Out = (PS_OUT)0;
+
+	vector		vMtrlDiffuse = g_DiffuseTexture.Sample(DefaultSampler, In.vTexUV);
+	vector		vNormalDesc = g_NormalTexture.Sample(DefaultSampler, In.vTexUV);
+
+	float3		vNormal = vNormalDesc.xyz * 2.f - 1.f;
+
+	float3x3	WorldMatrix = float3x3(In.vTangent, In.vBinormal, In.vNormal.xyz);
+
+	vNormal = normalize(mul(vNormal, WorldMatrix));
+
+	Out.vDiffuse = vMtrlDiffuse;
+	Out.vDiffuse.a = Out.vDiffuse.r;
+	Out.vDiffuse.x = Out.vDiffuse.x * g_Color1.x + ((1 - Out.vDiffuse.x) * g_Color2.x);
+	Out.vDiffuse.y = Out.vDiffuse.y * g_Color1.y + ((1 - Out.vDiffuse.y) * g_Color2.y);
+	Out.vDiffuse.z = Out.vDiffuse.z * g_Color1.z + ((1 - Out.vDiffuse.z) * g_Color2.z);
+	Out.vNormal = vector(vNormal * 0.5f + 0.5f, 0.f);
+	Out.vDepth = vector(In.vProjPos.z / In.vProjPos.w, In.vProjPos.w / 300.0f, 0.f, 0.f);
+
+	if (Out.vDiffuse.a > g_Alpha)
+		Out.vDiffuse.a = g_Alpha;
+
+	if (Out.vDiffuse.a < g_RemoveAlpha)
+		discard;
+
+	return Out;
+}
+
 technique11 DefaultTechnique
 {	
+	pass GreyModel {
+		SetRasterizerState(RS_Cull_NON);
+		SetDepthStencilState(DSS_Default, 0);
+		SetBlendState(BS_AlphaBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
+
+		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
+		GeometryShader = NULL;
+		PixelShader = compile ps_5_0 PS_MAIN_GREY();
+	}
+
 	pass Model
 	{
 		SetRasterizerState(RS_Cull_NON);
@@ -133,17 +180,6 @@ technique11 DefaultTechnique
 		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
 
 		VertexShader = compile vs_5_0 VS_MAIN_MODEL();
-		GeometryShader = NULL;
-		PixelShader = compile ps_5_0 PS_MAIN_MODEL();
-	}
-	
-	pass Model_Socket
-	{
-		SetRasterizerState(RS_Default);
-		SetDepthStencilState(DSS_Default, 0);
-		SetBlendState(BS_NonBlend, vector(1.f, 1.f, 1.f, 1.f), 0xffffffff);
-
-		VertexShader = compile vs_5_0 VS_MAIN_MODEL_SOCKET();
 		GeometryShader = NULL;
 		PixelShader = compile ps_5_0 PS_MAIN_MODEL();
 	}

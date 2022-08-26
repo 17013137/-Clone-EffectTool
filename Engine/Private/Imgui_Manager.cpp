@@ -39,6 +39,8 @@ HRESULT CImgui_Manager::InitImGui(ID3D11Device** ppDeviceOut, ID3D11DeviceContex
 	m_ParticleDesc.Color1 = _float4(1.f, 1.f, 1.f, 1.f);
 	m_ParticleDesc.Color2 = _float4(0.f, 0.f, 0.f, 1.f);
 	ZeroMemory(&m_RandParicle, sizeof(PARTICLERAND));
+
+	Reset_MeshEffect();
 	return S_OK;
 }
 
@@ -129,7 +131,6 @@ HRESULT CImgui_Manager::Set_Contents(void)
 				m_AccTime = 0.0;
 				m_TotalScale = _float3(1.f, 1.f, 1.f);
 			}
-			ImGui::SameLine(0, 5.f);
 
 			_float TotalScale[3] = { m_TotalScale.x, m_TotalScale.y, m_TotalScale.z };
 			ImGui::SliderFloat3("TotalScale", TotalScale, 0.01f, 10.f);
@@ -229,23 +230,80 @@ HRESULT CImgui_Manager::Set_Contents(void)
 		//MeshEffect
 
 		if (m_Tab == 1) {
-			if(ImGui::TreeNode("Mesh")) {
+ 			if(ImGui::TreeNode("Mesh")) {
 				DynamicListBox(".", &m_MeshTag, &m_MeshCnt);
 				ImGui::TreePop();
 			}
 
-			if (ImGui::Button("Start", ImVec2(50.f, 25.f))) {
+#pragma region SettingButton
+  			if (ImGui::Button("Start", ImVec2(50.f, 25.f)) || (GetAsyncKeyState(VK_END) & 0x0001)) {
 				m_MeshEffDesc.isStart = true;
-				m_isEnd = false;
-				m_isStart = true;
+				Start_MeshEffect();
+			}
+			ImGui::SameLine(0, 10.f);
+			if (ImGui::Button("Stop", ImVec2(50.f, 25.f))) {
+				m_MeshEffDesc.isStart = m_MeshEffDesc.isStart == true ? false : true;
 			}
 			ImGui::SameLine(0, 10.f);
 			if (ImGui::Button("Reset", ImVec2(50.f, 25.f))) {
-				m_MeshEffDesc.isStart = false;
-				m_isEnd = false;
+				Reset_MeshEffect();
+			}
+#pragma endregion SettingButton
+
+			ImGui::Checkbox("isDuration", &m_MeshEffDesc.isDuration);
+			if (m_MeshEffDesc.isDuration == true) {
+				ImGui::SliderFloat("Duration", &m_MeshEffDesc.Duration, 0.f, 10.f);
+				ImGui::SliderFloat("Time", &m_MeshEffDesc.AccTime, 0.f, m_MeshEffDesc.Duration);
 			}
 			
-			float Scale[3] = { m_MeshEffDesc.Scale.x, m_MeshEffDesc.Scale.y, m_MeshEffDesc.Scale.z };
+			if (ImGui::TreeNode("Default")) {
+				ImGui::SliderInt("Shader", &m_MeshEffDesc.Shader, 0, 10);
+				ImGui::SliderFloat("RemoveAlpha", &m_MeshEffDesc.RemoveAlpha, 0.f, 1.f);
+
+				_float Color1[3] = { m_MeshEffDesc.Color1.x, m_MeshEffDesc.Color1.y, m_MeshEffDesc.Color1.z };
+				ImGui::ColorEdit3("Color1", Color1);
+				m_MeshEffDesc.Color1 = _float3(Color1[0], Color1[1], Color1[2]);
+
+				_float Color2[3] = { m_MeshEffDesc.Color2.x, m_MeshEffDesc.Color2.y, m_MeshEffDesc.Color2.z };
+				ImGui::ColorEdit3("Color2", Color2);
+				m_MeshEffDesc.Color2 = _float3(Color2[0], Color2[1], Color2[2]);
+
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Alpha")) {
+				ImGui::SliderFloat("Alpha", &m_MeshEffDesc.Alpha, 0.f, 1.f);
+
+				ImGui::Checkbox("isStartAlpha", &m_MeshEffDesc.StartAlpha.isOn);
+				if (m_MeshEffDesc.StartAlpha.isOn == true) {
+					ImGui::SliderFloat("StartSpeed", &m_MeshEffDesc.StartAlpha.Speed, 0.f, 10.f);
+				}
+				ImGui::Checkbox("isEndAlpha", &m_MeshEffDesc.EndAlpha.isOn);
+				if (m_MeshEffDesc.EndAlpha.isOn == true) {
+					ImGui::SliderFloat("EndSpeed", &m_MeshEffDesc.EndAlpha.Speed, 0.f, 10.f);
+				}
+
+				ImGui::TreePop();
+			}
+			if(ImGui::TreeNode("Scale")) {
+				float Scale[3] = { m_MeshEffDesc.Scale.x, m_MeshEffDesc.Scale.y, m_MeshEffDesc.Scale.z };
+				ImGui::SliderFloat3("Scale", Scale, 0.001f, 10.f);
+				if (Scale[0] > 0.f)
+					m_MeshEffDesc.Scale.x = Scale[0];
+				if (Scale[1] > 0.f)
+					m_MeshEffDesc.Scale.y = Scale[1];
+				if (Scale[2] > 0.f)
+					m_MeshEffDesc.Scale.z = Scale[2];
+
+				float ScaleSpeed[3] = { m_MeshEffDesc.ScaleSpeed.x, m_MeshEffDesc.ScaleSpeed.y, m_MeshEffDesc.ScaleSpeed.z };
+				ImGui::SliderFloat3("ScaleSpeed", ScaleSpeed, 0.f, 10.f);
+				m_MeshEffDesc.ScaleSpeed = _float3(ScaleSpeed[0], ScaleSpeed[1], ScaleSpeed[2]);
+				ImGui::TreePop();
+			}
+			if (ImGui::TreeNode("Rotation")) {
+
+				ImGui::TreePop();
+			}
+
 		}
 		
 		ImGui::End();
@@ -376,11 +434,11 @@ HRESULT CImgui_Manager::Save()
 	flag.Direction = m_ParticleDesc.Direction;
 	flag.Speed = m_ParticleDesc.Speed;
 	flag.RandSpeed = m_RandParicle.Speed;
-	flag.TotalScale = m_TotalScale;
 
 	WriteFile(hFile, &flag, sizeof(SAVEPARTICLE), &dwByte, nullptr);
 	WriteFile(hFile, (*m_SaveData).data(), sizeof(VTXMATRIX)*flag.VectorSize, &dwByte, nullptr);
-
+	WriteFile(hFile, &m_TotalScale, sizeof(_float3), &dwByte, nullptr);
+	
 	CloseHandle(hFile);
 
 	_tchar		szFullPath2[MAX_PATH] = TEXT("");
@@ -435,8 +493,31 @@ HRESULT CImgui_Manager::Load()
 	ReadFile(hFile, &temp, sizeof(temp), &dwByte, nullptr);
 	if (dwByte != 0)
 		m_TotalScale = temp;
-
+	  
 	return S_OK;
+}
+
+void CImgui_Manager::Start_MeshEffect()
+{
+	m_MeshEffDesc.AccScale = m_MeshEffDesc.Scale;
+	m_MeshEffDesc.AccTime = 0.f;
+	if (m_MeshEffDesc.StartAlpha.isOn == true) {
+		m_MeshEffDesc.MaxAlpha = 1.f;
+		m_MeshEffDesc.Alpha = 0.f;
+	}
+}
+
+void CImgui_Manager::Reset_MeshEffect()
+{
+	ZeroMemory(&m_MeshEffDesc, sizeof(m_MeshEffDesc));
+	m_MeshEffDesc.Color1 = _float3(1.f, 1.f, 1.f);
+	m_MeshEffDesc.Color2 = _float3(0.f, 0.f, 0.f);
+	m_MeshEffDesc.Scale = _float3(1.f, 1.f, 1.f);
+	m_MeshEffDesc.ScaleSpeed = _float3(1.f, 1.f, 1.f);
+	m_MeshEffDesc.AccScale = m_MeshEffDesc.Scale;
+	m_MeshEffDesc.Alpha = 1.f;
+	m_MeshEffDesc.StartAlpha.Speed = 1.f;
+	m_MeshEffDesc.EndAlpha.Speed = 1.f;
 }
 
 void CImgui_Manager::Free()

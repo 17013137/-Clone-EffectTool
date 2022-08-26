@@ -2,19 +2,29 @@
 
 namespace Engine
 {
+	typedef struct AlphaDesc {
+		bool isOn;
+		float Speed;
+	}ALPHADESC;
+
 	typedef struct MeshEffect {
+		int Shader;
+		float RemoveAlpha;
 		bool isStart;
-		double Time;
+		bool isDuration;
+		float Duration;
+		float AccTime;
 		XMFLOAT3 Scale;
+		XMFLOAT3 ScaleSpeed;
+		XMFLOAT3 AccScale;
 		XMFLOAT3 Dir; //¶ó¾÷·è
 		float DirSpeed;
-		XMFLOAT4 Color1;
-		XMFLOAT4 Color2;
+		XMFLOAT3 Color1;
+		XMFLOAT3 Color2;
 		float Alpha;
-		float StartAlpha;
-		float StartAlphaSpeed;
-		float EndAlpha;
-		float EndAlphaSpeed;
+		float MaxAlpha;
+		ALPHADESC StartAlpha;
+		ALPHADESC EndAlpha;
 	}MESHEFFECTDESC;
 
 	typedef struct Save_Paricle_Data {
@@ -28,10 +38,9 @@ namespace Engine
 		bool isAxisRotation;
 		bool isArriveRemove;
 		int VectorSize;
-		float Duration;
+		float Duration; 
 		XMFLOAT2 RandSpeed;
 		float Speed;
-		XMFLOAT3 TotalScale;
 	}SAVEPARTICLE;
 
 	typedef struct PARTICLEDESC {

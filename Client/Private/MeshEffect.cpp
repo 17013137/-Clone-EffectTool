@@ -54,6 +54,8 @@ HRESULT CMeshEffect::NativeConstruct(void * pArg)
 		m_pTransformCom->Set_State(CTransform::STATE_POSITION, XMVectorSet(0.f, 0.f, 0.f, 1.f));
 	}
 
+	m_EffectDesc = &CImgui_Manager::GetInstance()->m_MeshEffDesc;
+
 	return S_OK;
 }
 
@@ -64,6 +66,49 @@ _int CMeshEffect::Tick(_double TimeDelta)
 		return 1;
 
 	m_pSphereCom->Update(m_pTransformCom->Get_WorldMatrix());
+	if (m_EffectDesc->isDuration == true) {
+		if (m_EffectDesc->isStart == true) {
+			if (m_EffectDesc->StartAlpha.isOn == true && m_EffectDesc->AccTime < m_EffectDesc->Duration) {
+				if (m_EffectDesc->MaxAlpha < m_EffectDesc->Alpha) {
+					m_EffectDesc->Alpha = m_EffectDesc->MaxAlpha;
+				}
+				m_EffectDesc->Alpha += TimeDelta * m_EffectDesc->StartAlpha.Speed;
+			}
+
+			if (m_EffectDesc->ScaleSpeed.x != 1.f)
+				m_EffectDesc->AccScale.x = m_EffectDesc->AccScale.x + TimeDelta * m_EffectDesc->ScaleSpeed.x;
+			if (m_EffectDesc->ScaleSpeed.y != 1.f)
+				m_EffectDesc->AccScale.y = m_EffectDesc->AccScale.y + TimeDelta * m_EffectDesc->ScaleSpeed.y;
+			if (m_EffectDesc->ScaleSpeed.z != 1.f)
+				m_EffectDesc->AccScale.z = m_EffectDesc->AccScale.z + TimeDelta * m_EffectDesc->ScaleSpeed.z;
+
+			m_pTransformCom->Scaled(m_EffectDesc->AccScale);
+
+			m_EffectDesc->AccTime += TimeDelta;
+			if (m_EffectDesc->AccTime > m_EffectDesc->Duration) {
+				if (m_EffectDesc->EndAlpha.isOn == true) {
+					if (m_EffectDesc->Alpha < 0.f) {
+						m_EffectDesc->Alpha = 0.f;
+						m_EffectDesc->isStart = false;
+					}
+					m_EffectDesc->Alpha -= TimeDelta * m_EffectDesc->EndAlpha.Speed;
+				}
+				else
+					m_EffectDesc->isStart = false;
+			}
+		}
+	}
+	else {
+		m_pTransformCom->Scaled(m_EffectDesc->Scale);
+		if (m_EffectDesc->isStart == true) {
+			if (m_EffectDesc->StartAlpha.isOn == true) {
+				if (m_EffectDesc->MaxAlpha < m_EffectDesc->Alpha) {
+					m_EffectDesc->Alpha = m_EffectDesc->MaxAlpha;
+				}
+				m_EffectDesc->Alpha += TimeDelta * m_EffectDesc->StartAlpha.Speed;
+			}
+		}
+	}
 
 	return 0;
 }
@@ -71,6 +116,8 @@ _int CMeshEffect::Tick(_double TimeDelta)
 void CMeshEffect::LateTick(_double TimeDelta)
 {
 	__super::LateTick(TimeDelta);
+
+	int temp = CImgui_Manager::GetInstance()->m_Tab;
 
 	if (nullptr != m_pRendererCom  && CImgui_Manager::GetInstance()->m_Tab == 1)
 	{
@@ -98,7 +145,7 @@ HRESULT CMeshEffect::Render()
 		if (FAILED(m_Models[m_ModelIndex]->Bind_Material_OnShader(m_pShaderCom, aiTextureType_DIFFUSE, "g_DiffuseTexture", i)))
 			return E_FAIL;
 
-		if (FAILED(m_Models[m_ModelIndex]->Render(m_pShaderCom, "g_BoneMatrices", i, 0)))
+		if (FAILED(m_Models[m_ModelIndex]->Render(m_pShaderCom, "g_BoneMatrices", i, m_EffectDesc->Shader)))
 			return E_FAIL;
 	}	
 
@@ -143,11 +190,19 @@ HRESULT CMeshEffect::SetUp_ConstantTable()
 
 	if (FAILED(m_pTransformCom->Bind_WorldMatrixOnShader(m_pShaderCom, "g_WorldMatrix")))
 		return E_FAIL;
-	
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ViewMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_VIEW), sizeof(_float4x4))))
 		return E_FAIL;
 	if (FAILED(m_pShaderCom->Set_RawValue("g_ProjMatrix", &pGameInstance->Get_TransformFloat4x4_TP(CPipeLine::D3DTS_PROJ), sizeof(_float4x4))))
 		return E_FAIL;	
+	if (FAILED(m_pShaderCom->Set_RawValue("g_RemoveAlpha", &m_EffectDesc->RemoveAlpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Alpha", &m_EffectDesc->Alpha, sizeof(_float))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Color1", &m_EffectDesc->Color1, sizeof(_float3))))
+		return E_FAIL;
+	if (FAILED(m_pShaderCom->Set_RawValue("g_Color2", &m_EffectDesc->Color2, sizeof(_float3))))
+		return E_FAIL;
+
 
 	RELEASE_INSTANCE(CGameInstance);
 
